@@ -56,3 +56,6 @@ Route::post('admin/dress/newtrending', 'DressController@handle_trending_dress_ad
 Route::get('admin/dress/trending', 'DressController@display_trending_dress_view')->name('admin_trending_dress');
 
 Route::get('testing_route/{num?}', 'DressController@index')->name('kk');
+
+Route::get('admin-login', 'Auth\AdminLoginController@showLoginForm');
+Route::post('admin-login', ['as'=>'admin-login','uses'=>'Auth\AdminLoginController@login']);
