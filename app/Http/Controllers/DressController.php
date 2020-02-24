@@ -79,7 +79,6 @@ class DressController extends Controller
                 ->get();
         //return $dress;
         return view('admin.trending_dress_view', ['dress' => $dress]);
-        //return $dress_count;
     }
 
     public function display_trending_dress_add_form() {
