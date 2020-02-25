@@ -1,135 +1,81 @@
-@extends('layouts.app')
-
- 
-
-@section('content')
-
-<div class="container">
-
-    <div class="row justify-content-center">
-
-        <div class="col-md-8">
-
-            <div class="card">
-
-                <div class="card-header">Admin {{ __('Login') }}</div>
-
- 
-
-                <div class="card-body">
-
-                    <form method="POST" action="{{ route('admin-login') }}">
-
-                        @csrf 
-
- 
-
-                        <div class="form-group row">
-
-                            <label for="email" class="col-sm-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
- 
-
-                            <div class="col-md-6">
-
-                                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
-
- 
-
-                                @if ($errors->has('email'))
-
-                                    <span class="invalid-feedback">
-
-                                        <strong>{{ $errors->first('email') }}</strong>
-
-                                    </span>
-
-                                @endif
-
-                            </div>
-
-                        </div>
-
- 
-
-                        <div class="form-group row">
-
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
- 
-
-                            <div class="col-md-6">
-
-                                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
- 
-
-                                @if ($errors->has('password'))
-
-                                    <span class="invalid-feedback">
-
-                                        <strong>{{ $errors->first('password') }}</strong>
-
-                                    </span>
-
-                                @endif
-
-                            </div>
-
-                        </div>
-
- 
-
-                        <div class="form-group row">
-
-                            <div class="col-md-6 offset-md-4">
-
-                                <div class="checkbox">
-
-                                    <label>
-
-                                        <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> {{ __('Remember Me') }}
-
-                                    </label>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
- 
-
-                        <div class="form-group row mb-0">
-
-                            <div class="col-md-8 offset-md-4">
-
-                                <button type="submit" class="btn btn-primary">
-
-                                    {{ __('Login') }}
-
-                                </button>
-
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-
-                                    {{ __('Forgot Your Password?') }}
-
-                                </a>
-
-                            </div>
-
-                        </div>
-
-                    </form>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-@endsection
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Login V16</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="{{ asset('external_files/admin_page/images/icons/favicon.ico') }}"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ asset('external_files/admin_page/vendor/bootstrap/css/bootstrap.min.css') }}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ asset('external_files/admin_page/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ asset('external_files/admin_page/fonts/Linearicons-Free-v1.0.0/icon-font.min.css') }}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ asset('external_files/admin_page/vendor/animate/animate.css') }}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{{ asset('external_files/admin_page/vendor/css-hamburgers/hamburgers.min.css') }}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ asset('external_files/admin_page/vendor/animsition/css/animsition.min.css') }}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ asset('external_files/admin_page/vendor/select2/select2.min.css') }}">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="{{ asset('external_files/admin_page/vendor/daterangepicker/daterangepicker.css') }}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{{ asset('external_files/admin_page/css/util.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ asset('external_files/admin_page/css/main.css') }}">
+<!--===============================================================================================-->
+</head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url('external_files/admin_page/images/bg.jpg');">
+			<div class="wrap-login p-t-30 p-b-50" style="opacity:0.7;  color: white;">
+				<span class="login100-form-title p-b-41">
+					Admin Login
+				</span>
+				<form class="login100-form validate-form p-b-33 p-t-5" action="{{ route('admin-login') }}" method="post" enctype="multipart/form-data" style="background: black;">
+                @csrf
+					<div class="wrap-input100 validate-input" data-validate = "Enter username">
+						<input class="input100" type="text" name="name" placeholder="User name">
+						<span class="focus-input100" data-placeholder="&#xe82a;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Enter password">
+						<input class="input100" type="password" name="password" placeholder="Password">
+						<span class="focus-input100" data-placeholder="&#xe80f;"></span>
+					</div>
+
+					<div class="container-login100-form-btn m-t-32">
+						<button type="submit" class="login100-form-btn" name="login">
+							Login
+						</button>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div id="dropDownSelect1"></div>
+	
+<!--===============================================================================================-->
+	<script src="{{ asset('external_files/admin_page/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
+<!--===============================================================================================-->
+	<script src="{{ asset('external_files/admin_page/vendor/animsition/js/animsition.min.js') }}"></script>
+<!--===============================================================================================-->
+	<script src="{{ asset('external_files/admin_page/vendor/bootstrap/js/popper.js') }}"></script>
+	<script src="{{ asset('external_files/admin_page/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+<!--===============================================================================================-->
+	<script src="{{ asset('external_files/admin_page/vendor/select2/select2.min.js') }}"></script>
+<!--===============================================================================================-->
+	<script src="{{ asset('external_files/admin_page/vendor/daterangepicker/moment.min.js') }}"></script>
+	<script src="{{ asset('external_files/admin_page/vendor/daterangepicker/daterangepicker.js') }}"></script>
+<!--===============================================================================================-->
+	<script src="{{ asset('external_files/admin_page/vendor/countdowntime/countdowntime.js') }}"></script>
+<!--===============================================================================================-->
+	<script src="{{ asset('external_files/admin_page/js/main.js') }}"></script>
+
+</body>
+</html>

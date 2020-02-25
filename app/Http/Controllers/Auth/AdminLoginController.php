@@ -74,7 +74,7 @@ class AdminLoginController extends Controller
 
     public function login(Request $request)
     {
-        if (auth()->guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
+        if (auth()->guard('admin')->attempt(['name' => $request->name, 'password' => $request->password])) {
             return view('auth.adminPage', ['username' => auth()->guard('admin')->user()->name]);
             //dd(auth()->guard('admin')->user()->name);
 
