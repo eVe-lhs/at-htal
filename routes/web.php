@@ -43,8 +43,8 @@ Route::get('jquery', function() {
     return view('jquery_test');
 });
 
-Route::get('/home_page/{dress_type?}', 'DressController@display')->name('home_page');
-Route::get('catalog', 'DressController@display');
+Route::get('/home_page', 'MainController@index')->name('home_page');
+Route::get('/home_page/shop', 'MainController@show_shop_page')->name('shop');
 
 //Admin routes
 Route::get('admin/tailors','UserController@tailor_list');

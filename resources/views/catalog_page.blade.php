@@ -57,14 +57,14 @@
 					<div class="menu-desktop">
 						<ul class="main-menu">
 							<li>
-								<a href="index.html">Home</a>
+								<a href="{{ route('home_page') }}">Home</a>
 								
 							</li>
 
 							
 
 							<li class="active-menu" data-label1="hot">
-								<a href="product.html">Shop</a>
+								<a href="{{ route('shop') }}">Shop</a>
 							</li>
 							<li >
 								<a href="shopping-cart.html">Cart</a>
@@ -512,7 +512,7 @@
 			</div>
 
 			<div class="row isotope-grid">
-                @foreach($profile as $i)
+                @foreach($dress as $i)
 				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
 					<!-- Block2 -->
 					<div class="block2">
@@ -546,9 +546,7 @@
 				</div>
                 @endforeach
 			</div>
-            <div>
-			{{ $profile->links() }}
-			</div>
+            
 
 			<!-- Load more -->
 			<div class="flex-c-m flex-w w-full p-t-45">
@@ -799,7 +797,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	</div>
 
 <!--===============================================================================================-->	
-<script src="{{ asset('external_files/home_page/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
+	<script src="{{ asset('external_files/home_page/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
 <!--===============================================================================================-->
 	<script src="{{ asset('external_files/home_page/vendor/animsition/js/animsition.min.js') }}"></script>
 <!--===============================================================================================-->

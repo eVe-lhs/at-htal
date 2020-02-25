@@ -63,7 +63,7 @@
 							
 
 							<li class="label1" data-label1="hot">
-								<a href="product.html">Shop</a>
+								<a href="{{ route('shop') }}">Shop</a>
 							</li>
 							<li>
 								<a href="shoping-cart.html">Cart</a>
