@@ -80,65 +80,55 @@ tr:nth-child(odd) {
           <!-----customer tab---->
           <div id="customers" class="active tab-pane">
         <h2 class="mb-4">Customer Table will be here</h2>
-        <p>Total numbers of customers:</p>
+        <p>Total numbers of customers: <?php echo count($customer); ?></p>
         <table class="p-l-3">
           <tr>
             <th>Name</th>
-            <th>Customer ID</th>
+            <th>ID#</th>
             <th>Email</th>
             <th>Phone Number</th>
+            <th>Address</th>
             <th>Total orders</th>
-            </tr>
+          </tr>
             
-           <?php /* 
-  $db=mysqli_connect("localhost","root","","accounts");
-                 $tablename="";
-                 $rowname="";
-$query="SELECT * FROM users ... BY id DESC";
-    $result=mysqli_query($db,$query);
-while($row=mysqli_fetch_array($result)){
-echo '<tr>
-    <td>'.$row['cname'].'</td>
-<td>'.$row['cid'].'</td>
-<td>'.$row['email'].'</td>
-<td>'.$row['phNo'].'</td>
-<td>'.$row['totalOrders'].'</td>
-<td><a href="delete.php?del='.$row['cid'].'">Delete User</a></td>
-  </tr>';
-}*/
-?>	
-          </table>
+          <tr>
+            @foreach($customer as $i)
+              <td>{{ $i->name }}</td>
+              <td>{{ $i->id }}</td>
+              <td>{{ $i->email }}</td>
+              <td>{{ $i->phone_number }}</td>
+              <td>{{ $i->address }}</td>
+              <td>0</td>
+            @endforeach
+          </tr>  
+        </table>
               </div>
           
           
           <!--- Tailor Tab --->
            <div id="tailors" class="tab-pane fade">
         <h2 class="mb-4">Tailor Table will be here</h2>
-        <p>Total numbers of tailors:</p>
+        <p>Total numbers of tailors: <?php echo count($tailor); ?></p>
         <table class="p-l-3">
           <tr>
             <th>Name</th>
-            <th>Tailor ID</th>
+            <th>ID#</th>
             <th>Email</th>
             <th>Phone Number</th>
+            <th>Address</th>
             <th>Rating</th>
-            </tr>
+          </tr>
             
-            <?php   /*$db=mysqli_connect("localhost","root","","accounts");
-                 $tablename="";
-                 $rowname="";
-$query="SELECT * FROM users ... BY id DESC";
-    $result=mysqli_query($db,$query);
-while($row=mysqli_fetch_array($result)){
-echo '<tr>
-    <td>'.$row['cname'].'</td>
-<td>'.$row['tid'].'</td>
-<td>'.$row['email'].'</td>
-<td>'.$row['phNo'].'</td>
-<td>'.$row['Rating'].'</td>
-<td><a href="delete.php?del='.$row['cid'].'">Delete User</a></td>
-  </tr>';
-}*/ ?>
+          <tr>
+            @foreach($tailor as $i)
+              <td>{{ $i->name }}</td>
+              <td>{{ $i->id }}</td>
+              <td>{{ $i->email }}</td>
+              <td>{{ $i->phone_number }}</td>
+              <td>{{ $i->address }}</td>
+              <td>7.5</td>
+            @endforeach
+          </tr>  
           </table>
               </div>
           

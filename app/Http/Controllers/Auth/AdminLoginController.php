@@ -8,6 +8,10 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
+
+use App\User;
+
 class AdminLoginController extends Controller
 
 {
@@ -75,7 +79,14 @@ class AdminLoginController extends Controller
     public function login(Request $request)
     {
         if (auth()->guard('admin')->attempt(['name' => $request->name, 'password' => $request->password])) {
-            return view('auth.adminPage', ['username' => auth()->guard('admin')->user()->name]);
+            $customer = User::where('is_tailor', 0)->get();
+            $tailor = User::where('is_tailor', 1)->get();
+
+            return view('auth.adminPage', [
+                'username' => auth()->guard('admin')->user()->name,
+                'customer' => $customer,
+                'tailor' => $tailor,
+            ]);
             //dd(auth()->guard('admin')->user()->name);
 
         }

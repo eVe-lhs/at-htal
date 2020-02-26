@@ -26,7 +26,7 @@ class MainController extends Controller
     }
 
     public function show_shop_page() {
-        $dress = DB::table('dress')->get();
+        $dress = DB::table('dress')->orderBy('dress_id', 'desc')->limit(4)->get();
         return view('catalog_page')->with('dress', $dress);
     }
 
