@@ -46,6 +46,7 @@ Route::get('jquery', function() {
 Route::get('/home_page', 'MainController@index')->name('home_page');
 Route::get('/home_page/shop', 'MainController@show_shop_page')->name('shop');
 Route::post('loadmoredata','jobsController@loadmoredata');
+Route::post('/order', 'OrderController@store')->name('order');
 
 //Admin routes
 Route::get('admin/tailors','UserController@tailor_list');
@@ -56,7 +57,7 @@ Route::get('admin/dress/newtrending', 'DressController@display_trending_dress_ad
 Route::post('admin/dress/newtrending', 'DressController@handle_trending_dress_add_form')->name('admin_trending_dress_add');
 Route::get('admin/dress/trending', 'DressController@display_trending_dress_view')->name('admin_trending_dress');
 
-Route::get('testing_route/{num?}', 'DressController@index')->name('kk');
+
 
 Route::get('admin-login', 'Auth\AdminLoginController@showLoginForm');
 Route::post('admin-login', ['as'=>'admin-login','uses'=>'Auth\AdminLoginController@login']);

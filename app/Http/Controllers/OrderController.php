@@ -6,10 +6,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
 
-use App\Dress;
-use App\User;
-
-class MainController extends Controller
+class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,18 +15,7 @@ class MainController extends Controller
      */
     public function index()
     {
-        $dress = DB::table('dress')
-                ->join('trending_dress', 'dress.dress_id', '=', 'trending_dress.dress_id')
-                ->select('dress.*', 'trending_dress.*')
-                ->get();
-        //return $dress;
-        return view('at_htel_home_page')->with('profile', $dress);
-    }
-
-    public function show_shop_page() {
-        $dress = DB::table('dress')->orderBy('dress_id', 'desc')->limit(4)->get();
-        $tailor = User::where('is_tailor', 1)->get();
-        return view('catalog_page', ['dress' => $dress, 'tailor' => $tailor]);
+        //
     }
 
     /**
@@ -50,7 +36,15 @@ class MainController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        /* $values = array($request->customer, $request->dress);
+        dd($values); */
+        $order = DB::table('order')->insert([
+            ['customer_id' => $request->customer, 'tailor_id' => $request->tailor, 'dress_id' => $request->dress,
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()]
+        ]);
+
+        dd($order);
     }
 
     /**

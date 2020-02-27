@@ -27,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    //protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -52,7 +52,7 @@ class LoginController extends Controller
             if (auth()->user()->is_tailor == 1) {
                 return redirect()->route('tailor.home');
             }else{
-                return redirect()->route('home');
+                return redirect()->route('home_page');
             }
         }else{
             return redirect()->route('login')

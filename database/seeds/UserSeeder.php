@@ -15,16 +15,16 @@ class UserSeeder extends Seeder
     {
         $user = [
             [
-                'name' => 'customer',
-                'email' => 'customer@gmail.com',
+                'name' => 'Hla Hla',
+                'email' => 'HlaHla@gmail.com',
                 'is_tailor' => '0',
                 'password' => bcrypt('12345678'),
                 'phone_number' => '09123456789',
                 'address' => 'Yangon',
             ],
             [
-                'name' => 'tailor',
-                'email' => 'tailor@gmail.com',
+                'name' => 'Aye Aye',
+                'email' => 'ayeaye@gmail.com',
                 'is_tailor' => '1',
                 'password' => bcrypt('12345678'),
                 'phone_number' => '09123456789',

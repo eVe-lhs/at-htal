@@ -83,11 +83,20 @@
 					<!-- Icon header -->
 					<div class="wrap-icon-header flex-w flex-r-m">
 						
-
-						<a href="#" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 " >
+						<div class="btn-group dropright">
+							<button type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							<img src="{{ asset('external_files/home_page/images/icons/Profilelogo.jpg') }}" width="40px" height="40px">
-						</a>
+							<div class="pull-right mt-2">{{ Auth::user()->name }}</div>
+							</button>
+							<div class="dropdown-menu">
+								<a class="dropdown-item" href="#">Settings</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="{{ route('logout') }}">Logout</a>
+							</div>
+						</div>
 					</div>
+
+					
 				</nav>
 			</div>	
 		</div>
@@ -243,13 +252,12 @@
 	<script src="{{ asset('external_files/home_page/vendor/select2/select2.min.js') }}"></script>
 	<script>
 		$('#dress_image a').click(function(){
-			image = $(this).data('value');
-			//value = $('#dress_image img').attr('src');
-			//path = "dresses/" + value;
-			//alert($('.item-slick3').data('thumb'))
+			image = $(this).data('photo');
 			$('#modal_image img').attr('src', image);
-			$('.zoom').attr('href', image);
-			//alert(value);
+			$('.zoom').attr('href', image); 
+			
+			dress_id = $(this).data('aa');
+			$('#dress').val(dress_id);
 		});
 	</script>
 	<script>

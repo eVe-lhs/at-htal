@@ -35,6 +35,13 @@
 <!--===============================================================================================-->
 	<link rel="icon" type="image/png" href="{{ asset('external_files/home_page/images/icons/favicon.png') }}">
 <!--===============================================================================================-->
+<!-- <style>
+input[type="number"]{
+
+background-color : #d1d1d1; 
+
+}
+</style> -->
 </head>
 <body class="animsition">
 	
@@ -410,7 +417,7 @@
 							<div class="block2-pic hov-img0" id="dress_image">
 								<img src="{{ asset('dresses/' . $i->dress_photo) }}" alt="IMG-PRODUCT">
 
-								<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1" data-value="{{ asset('dresses/' . $i->dress_photo) }}">
+								<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1" data-photo="{{ asset('dresses/' . $i->dress_photo) }}" data-aa="{{ $i->dress_id }}">
 									Quick View
 								</a>
 							</div>
@@ -599,101 +606,84 @@
 					</div>
 					
 					<div class="col-md-6 col-lg-5 p-b-30">
-						<div class="p-r-50 p-t-5 p-lr-0-lg">
-							<h4 class="mtext-105 cl2 js-name-detail p-b-14">
-								Lightweight Jacket
-							</h4>
+					<div class="p-r-50 p-t-5 p-lr-0-lg">
+						<h4 class="mtext-105 cl2 js-name-detail p-b-14">
+							Lightweight Jacket
+						</h4>
 
-							<span class="mtext-106 cl2">
-								$58.79
-							</span>
+						<span class="mtext-106 cl2">
+							MMK58.79
+						</span>
 
-							<p class="stext-102 cl3 p-t-23">
-								Nulla eget sem vitae eros pharetra viverra. Nam vitae luctus ligula. Mauris consequat ornare feugiat.
-							</p>
-							
-							<!--  -->
-							<div class="p-t-33">
-								<div class="flex-w flex-r-m p-b-10">
-									<div class="size-203 flex-c-m respon6">
-										Size
-									</div>
-
-									<div class="size-204 respon6-next">
-										<div class="rs1-select2 bor8 bg0">
-											<select class="js-select2" name="time">
-												<option>Choose an option</option>
-												<option>Size S</option>
-												<option>Size M</option>
-												<option>Size L</option>
-												<option>Size XL</option>
-											</select>
-											<div class="dropDownSelect2"></div>
+						
+						
+						<!--  -->
+						<div class="mt-3">
+							<form action="{{ route('order') }}" method="post">
+							@csrf
+							<input type="hidden" name="customer" id="" value="{{ Auth::user()->id }}">
+							<input type="hidden" name="dress" id="dress" value="">
+								<div>
+									<h5>All measurements are in :</h5>
+									<div class="mt-3">
+										<div class="form-check-inline">
+											<input type="radio" class="form-check-input" id="centimeter" name="measure" value="centimeter" checked/>
+											<label class="form-check-label" for="centimeter">Centimeter(cm)  </label>
+										</div>
+									
+										<div class="form-check-inline p-l-25" >
+											<input type="radio" class="form-check-input " id="inch" name="measure" value="inch"/>
+											<label class="form-check-label" for="inch">Inch (in)</label>
 										</div>
 									</div>
 								</div>
-
-								<div class="flex-w flex-r-m p-b-10">
-									<div class="size-203 flex-c-m respon6">
-										Color
-									</div>
-
-									<div class="size-204 respon6-next">
-										<div class="rs1-select2 bor8 bg0">
-											<select class="js-select2" name="time">
-												<option>Choose an option</option>
-												<option>Red</option>
-												<option>Blue</option>
-												<option>White</option>
-												<option>Grey</option>
-											</select>
-											<div class="dropDownSelect2"></div>
-										</div>
-									</div>
-								</div>
-
-								<div class="flex-w flex-r-m p-b-10">
-									<div class="size-204 flex-w flex-m respon6-next">
-										<div class="wrap-num-product flex-w m-r-20 m-tb-10">
-											<div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-												<i class="fs-16 zmdi zmdi-minus"></i>
-											</div>
-
-											<input class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1">
-
-											<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-												<i class="fs-16 zmdi zmdi-plus"></i>
+								
+								<div class="mt-3">
+									<div class="form-group">
+										<div class="row">
+											<div class="col">
+												<label for="">Select Tailor: </label>
+												<select name="tailor" id="">
+													@foreach($tailor as $i)
+													<option value="{{ $i->id }}">{{ $i->name }}</option>
+													@endforeach
+												</select>
 											</div>
 										</div>
-
-										<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
-											Add to cart
-										</button>
 									</div>
-								</div>	
-							</div>
+									<div class="form-group">
 
-							<!--  -->
-							<div class="flex-w flex-m p-l-100 p-t-40 respon7">
-								<div class="flex-m bor9 p-r-10 m-r-11">
-									<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100" data-tooltip="Add to Wishlist">
-										<i class="zmdi zmdi-favorite"></i>
-									</a>
+										<div class="row">
+											<div class="col"> 
+												<label for="shoulder">Shoulder(in cm)</label>
+												<input type="number" name="" id="shoulder" class="form-control" min="0" max="100">
+											</div>
+
+											<div class="col"> 
+												<label for="shoulder">Shoulder(in cm)</label>
+												<input type="number" name="" id="shoulder" class="form-control" min="0" max="100">
+											</div>
+										</div>
+										
+									</div>
 								</div>
+								<br>
+								<div>
+									<h6>Duration :</h6>
 
-								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Facebook">
-									<i class="fa fa-facebook"></i>
-								</a>
+								</div>
+								<br>
+								<div>
 
-								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Twitter">
-									<i class="fa fa-twitter"></i>
-								</a>
-
-								<a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100" data-tooltip="Google Plus">
-									<i class="fa fa-google-plus"></i>
-								</a>
-							</div>
+									<button type="submit" class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btnS p-lr-15 m-r-16 trans-04">
+										Order
+									</button>
+								</div>
+							</form>
 						</div>
+
+						
+						
 					</div>
 				</div>
 			</div>
@@ -711,10 +701,12 @@
 	<script src="{{ asset('external_files/home_page/vendor/select2/select2.min.js') }}"></script>
 	<script>
 		$('#dress_image a').click(function(){
-			image = $(this).data('value');
+			image = $(this).data('photo');
 			$('#modal_image img').attr('src', image);
 			$('.zoom').attr('href', image); 
 			
+			dress_id = $(this).data('aa');
+			$('#dress').val(dress_id);
 		});
 	</script>
 	<script>
