@@ -197,7 +197,7 @@
 
 			<div class="row isotope-grid">
 				<!-- Item to be looped -->
-                @foreach($profile as $i)
+                @foreach($dress as $i)
 				<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
 					<!-- Block2 -->
 					<div class="block2">
@@ -286,38 +286,70 @@
 						<div class="mt-3">
 							<form action="{{ route('order') }}" method="post">
 							@csrf
-								<input type="hidden" name="customer" id="" value="{{ Auth::user()->id }}">
-								<input type="hidden" name="dress" id="dress" value="">
-
-								<div>
-									<h5>All measurements are in :</h5>
-									<div class="mt-3">
-										<div class="form-check-inline">
-											<input type="radio" class="form-check-input" id="centimeter" name="measure" value="centimeter" checked/>
-											<label class="form-check-label" for="centimeter">Centimeter(cm)  </label>
-										</div>
-									
-										<div class="form-check-inline p-l-25" >
-											<input type="radio" class="form-check-input " id="inch" name="measure" value="inch"/>
-											<label class="form-check-label" for="inch">Inch (in)</label>
+							<input type="hidden" name="customer" id="" value="{{ Auth::user()->id }}">
+							<input type="hidden" name="dress" id="dress" value="">
+								
+							<p>Date: <input type="text" id="datepicker"></p>
+								<div class="mt-3">
+									<div class="form-group">
+										<div class="row">
+											<div class="col">
+												<label for="tailor">Select Tailor: </label>
+												<select name="tailor" id="tailor" class="form-control">
+													@foreach($tailor as $i)
+													<option value="{{ $i->id }}">{{ $i->name }}</option>
+													@endforeach
+												</select>
+											</div>
 										</div>
 									</div>
-								</div>
-								
-								<div class="mt-3">
 									<div class="form-group">
 
 										<div class="row">
 											<div class="col"> 
-												<label for="shoulder">Shoulder(in cm)</label>
-												<input type="number" name="" id="shoulder" class="form-control" min="0" max="100">
+												<label for="bust">Bust(in cm)</label>
+												<input type="number" name="bust" id="bust" class="form-control" min="0" max="100" value="<?php echo ($measurement == null) ? '0' : $measurement->bust ; ?>" required>
 											</div>
 
 											<div class="col"> 
-												<label for="shoulder">Shoulder(in cm)</label>
-												<input type="number" name="" id="shoulder" class="form-control" min="0" max="100">
+												<label for="waist">Waist(in cm)</label>
+												<input type="number" name="waist" id="waist" class="form-control" min="0" max="100" value="<?php echo ($measurement == null) ? '0' : $measurement->waist ; ?>" required>
 											</div>
 										</div>
+
+										<div class="row mt-3">
+											<div class="col"> 
+												<label for="backlength">Backlength(in cm)</label>
+												<input type="number" name="backlength" id="backlength" class="form-control" min="0" max="100" value="<?php echo ($measurement == null) ? '0' : $measurement->backlength ; ?>" required>
+											</div>
+
+											<div class="col"> 
+												<label for="hip">Hip(in cm)</label>
+												<input type="number" name="hip" id="hip" class="form-control" min="0" max="100" value="<?php echo ($measurement == null) ? '0' : $measurement->hip ; ?>" required>
+											</div>
+										</div>
+
+										<div class="row mt-3">
+											<div class="col"> 
+												<label for="bicep_left">Bicep-left(in cm)</label>
+												<input type="number" name="bicep_left" id="bicep_left" class="form-control" min="0" max="100" value="<?php echo ($measurement == null) ? '0' : $measurement->bicep_left ; ?>" required>
+											</div>
+
+											<div class="col"> 
+												<label for="bicep_right">Bicep-right(in cm)</label>
+												<input type="number" name="bicep_right" id="bicep_right" class="form-control" min="0" max="100" value="<?php echo ($measurement == null) ? '0' : $measurement->bicep_right ; ?>" required>
+											</div>
+										</div>
+
+										<?php 
+											if(count($errors) > 0) {
+												$msg = "";
+												foreach($errors->all() as $error) {
+													$msg .= $error . "\\n";
+												}
+												echo '<script type="text/javascript">alert("' . $msg . '")</script>';
+											}
+										?>
 										
 									</div>
 								</div>

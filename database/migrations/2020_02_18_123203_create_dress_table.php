@@ -19,6 +19,7 @@ class CreateDressTable extends Migration
             $table->foreign('dress_type_id')->references('dress_type_id')->on('dress_type');
             //$table->string('dress_photo');
             $table->mediumText('dress_photo');
+            $table->integer('price');
         });
     }
 

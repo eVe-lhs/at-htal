@@ -9,6 +9,10 @@
 		
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="{{ asset('external_files/admin_page/css/style.css') }}">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
       <style>
          table,td,th{
              color: black;
@@ -91,16 +95,18 @@ tr:nth-child(odd) {
             <th>Total orders</th>
           </tr>
             
-          <tr>
+          
             @foreach($customer as $i)
+            <tr>
               <td>{{ $i->name }}</td>
               <td>{{ $i->id }}</td>
               <td>{{ $i->email }}</td>
               <td>{{ $i->phone_number }}</td>
               <td>{{ $i->address }}</td>
               <td>0</td>
+            </tr> 
             @endforeach
-          </tr>  
+           
         </table>
               </div>
           
@@ -119,16 +125,17 @@ tr:nth-child(odd) {
             <th>Rating</th>
           </tr>
             
-          <tr>
             @foreach($tailor as $i)
+            <tr>
               <td>{{ $i->name }}</td>
               <td>{{ $i->id }}</td>
               <td>{{ $i->email }}</td>
               <td>{{ $i->phone_number }}</td>
               <td>{{ $i->address }}</td>
               <td>7.5</td>
+            </tr>
             @endforeach
-          </tr>  
+            
           </table>
               </div>
           
@@ -208,14 +215,52 @@ echo '<tr>
           
             <!--- models tab ---->
             <div id="models" class="tab-pane fade">
-        <h2 class="mb-4">Model edition:</h2>
- <!-------Write some model tab edition codes --->
-                
-                
-                
-                
-                
+              <h2 class="mb-4">Trending product edition:</h2>
+              <div id="product-viewer">
+                <table class="p-l-3">
+                  <th>ID#</th>
+                  <th>Trending dress</th>
+
+                  @foreach($trending_dress as $dress)
+                  <tr>
+                    <td>{{ $dress->dress_id }}</td>
+                    <td>{{ $dress->dress_photo }}</td>
+                    <td><button type="button" class="edit-btn" value="{{ asset('dresses/' . $dress->dress_photo) }}">Edit</button></td>
+                  </tr>
+                  @endforeach
+                </table>
+                <!-- <button type="button" id="edit-btn">Edit</button> -->
               </div>
+
+              <div id="product-editor">
+                <img src="" alt="IMG-PRODUCT" width="230" height="300">
+                <form action="" method="post" enctype="multipart/form-data">
+                  <input type="file">
+                </form>
+              </div>
+              <br><br>
+
+              <button type="button" id="back">Back</button>                
+            </div>
+          <script>
+            $('#product-editor').hide();
+            if($('#product-editor').is(':hidden')) {
+              $('#back').hide();
+            }
+            
+            $('.edit-btn').click(function() {
+              image = $(this).val();
+              $('#product-viewer').hide();
+              $('#product-editor img').attr('src', image);
+              $('#product-editor').show();
+              $('#back').show();
+            });
+            $('#back').click(function() {
+              $('#product-viewer').show();
+              $('#product-editor').hide();
+              $('#back').hide();
+            });
+          </script>
           
           
           <!---feedback tab --->

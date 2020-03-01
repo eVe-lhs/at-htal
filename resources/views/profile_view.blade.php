@@ -4,6 +4,10 @@
 	<title>Product</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+		
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <!--===============================================================================================-->	
 <link rel="stylesheet" href="{{ asset('external_files/home_page/vendor/bootstrap/css/bootstrap.min.css') }}"/>
 <!--===============================================================================================-->
@@ -35,13 +39,11 @@
 <!--===============================================================================================-->
 	<link rel="icon" type="image/png" href="{{ asset('external_files/home_page/images/icons/favicon.png') }}">
 <!--===============================================================================================-->
-<!-- <style>
-input[type="number"]{
 
-background-color : #d1d1d1; 
+    <link rel="stylesheet" type="text/css" href="{{ asset('external_files/home_page/css/bootstrap.profile.css') }}">
+    
+<!--===============================================================================================-->
 
-}
-</style> -->
 </head>
 <body class="animsition">
 	
@@ -69,7 +71,7 @@ background-color : #d1d1d1;
 
 							
 
-							<li class="label1 active-menu" data-label1="hot">
+							<li>
 								<a href="{{ route('shop') }}">Shop</a>
 							</li>
 							<li>
@@ -99,8 +101,7 @@ background-color : #d1d1d1;
 							<div class="dropdown-menu">
 								<a class="dropdown-item" href="{{ route('profile') }}">Edit profile</a>
 								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">Logout</a>
+								<a class="dropdown-item" href="{{ route('logout') }}">Logout</a>
 								<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
@@ -166,125 +167,244 @@ background-color : #d1d1d1;
 		</div>
 	</header>
 
+	<div class="wrapper d-flex align-items-stretch">
+		<nav id="sidebar">
+			<div class="p-4 pt-5">
+			  <a href="#" class="img logo rounded-circle" style="background-image: url(images/logo.jpg);"></a>
+		<ul class="list-unstyled components mb-5 nav flex-column">
+		  <li>
+			<a href="#Dashboard" data-toggle="tab">Dashboard</a>
+		  </li>
+		  <li>
+			  <a href="#updatepassword" data-toggle="tab">Update Password</a>
+		  </li>
+			<li>
+			  <a href="#updateprofile" data-toggle="tab">Update Profile</a>
+		  </li>
+			 <li>
+			  <a href="#measures" data-toggle="tab">Measures</a>
+		  </li>
+			 <li>
+		  <a href="{{ route('logout') }}" onclick="event.preventDefault();
+            document.getElementById('logout-form').submit();">Log Out</a>
+			<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+		  </li>
+		</ul>
+	  </div>
+	</nav>
+
+	
+
+	<!-- Page Content  -->
+  <div id="content" class="p-4 p-md-5 tab-content">
+	  <!-----customer tab---->
+	  <div id="Dashboard" class="active tab-pane"  >
+		
+		<div class="row" style="">
+			<div class="col-xs-12 col-sm-6 col-md-6">
+				<div class="well well-sm">
+					<div class="row">
+						<div class="col-sm-6 col-md-4">
+							<img src="{{ asset('external_files/home_page/images/icon-person-512.png') }}" alt="" class="img-rounded img-responsive" />
+						</div>
+						<div class="col-sm-6 col-md-8">
+							<h3>{{ $user->name }}</h3>
+							
+							   <h4> <i class="glyphicon glyphicon-envelope"></i>{{ $user->email }}</h4>
+								
+								<h4>&#128241  {{ $user->phone_number }}</h4>
+							<h4> <i class="glyphicon glyphicon-home"></i>{{ $user->address }} </h4>
+						</div>
+					</div>
+				</div>
+				
+				
+			</div>
+		</div>  
+				 
+			  
+	  </div>
+  
+	  
+	  
+	  <!--- Tailor Tab --->
+	   <div id="updatepassword" class="tab-pane fade" style="margin-left: 20%; margin-top: -10%;">
+	<h2 class="mb-4">Update Password</h2>
+	<form method="post" action="{{ route('password_update') }}">
+	@csrf
+		<div class="row">
+			<div class="col-sm-9">Enter Your current password</div>
+			<div class="col-sm-9">
+			<input type="password" name="old_password" class="form-control"/></div>
+		</div>
+		
+		<div class="row">
+			<div class="col-sm-9">Enter Your New Password</div>
+			<div class="col-sm-9">
+			<input type="password" name="password" class="form-control"/></div>
+		</div>
+		
+		<div class="row">
+			<div class="col-sm-9">Enter Your Confirm Password</div>
+			<div class="col-sm-9">
+			<input type="password" name="password_confirmation" class="form-control"/></div>
+		</div>
+		<div class="row" style="margin-top:10px;">
+			<div class="col-sm-2"></div>
+			<div class="col-sm-8">
+			
+			
+			<input type="submit" value="Update Password" name="save" class="btn btn-success"/>
+			<input type="reset" class="btn btn-success"/>
+			</div>
+		</div>
+	</form>	
+			   
+		  </div>
+	  
+	   <!--- dresses tab ---->
+	
+		<!--- sliders tab ---->
+		<div id="updateprofile" class="tab-pane fade" style="margin-top: -50px; margin-left: 15%;"> 
+	<h2 class="mb-4">Update Profile</h2>
+	<form method="post" action="{{ route('profile_update') }}">
+	@csrf
+		<table class="table table-bordered" style="width: 500px;">
+			<Tr>
+				<Td colspan="2"><?php echo @$err;?></Td>
+			</Tr>
+			
+			<tr>
+				<td>Username</td>
+				<Td><input class="form-control" value="{{ $user->name }}"  type="text" name="name"/></td>
+					
+			</tr>
+			<tr>
+				<td>Email </td>
+				<Td><input class="form-control" type="email" readonly="true" value="{{ $user->email }}" name="email"/></td>
+			</tr>
+			
+			
+			<tr>
+				<td>Phone Number </td>
+				<Td><input class="form-control" type="text" value="{{ $user->phone_number }}" name="phone_number"/></td>
+			</tr>
+			<tr>
+				<td>
+					Address
+				</td>
+				<td><textarea name="address" id="" cols="30" rows="5" class="form-control" style="resize: none">{{ $user->address }}</textarea></td>
+			</tr>
+			
+			<tr>
+				
+				
+<Td colspan="2" align="center">
+<input type="submit" class="btn btn-success" value="Update My Profile" name="update" />
+<input type="reset" class="btn btn-success" value="Reset"/>
+			
+				</td>
+			</tr>
+		</table>
+	</form>
+				
+			
+			
+			
+		  </div>
+	  
+	  
+		<!--- models tab ---->
+		<div id="measures" class="tab-pane fade" style="margin-top: -60px; ">
+	<h2 >Update your body measure</h2>
+	<form method="post" action="{{ route('measurement_update') }}">
+	@csrf
+		<table class="table table-bordered" style="width: 500px;">
+			<Tr>
+				<Td colspan="2"><?php echo @$err;?></Td>
+			</Tr>
+			
+			
+			<tr>
+				<td>Bust</td>
+				<Td><input class="form-control" value="<?php echo ($measurement == null) ? '0' : $measurement->bust ; ?>"  type="number" name="bust"/></td>
+			</tr>
+			<tr>
+				<td>Waist </td>
+				<Td><input class="form-control" type="number"  value="<?php echo ($measurement == null) ? '0' : $measurement->waist ; ?>"  name="waist"/></td>
+			</tr>
+			
+			
+			<tr>
+				<td>Hip</td>
+				<Td><input class="form-control" type="number" value="<?php echo ($measurement == null) ? '0' : $measurement->hip ; ?>"  name="hip"/></td>
+			</tr>
+			
+		<tr>
+			<td>
+				Back Length
+			</td>
+			<td>
+				<input class="form-control" type="number" value="<?php echo ($measurement == null) ? '0' : $measurement->backlength ; ?>"  name="backlength"/>	
+			</td>
+		</tr>
+			<tr>
+				<td>
+					Left Biceps
+				</td>
+				<td><input class="form-control" type="number" value="<?php echo ($measurement == null) ? '0' : $measurement->bicep_left ; ?>" name="bicep_left"></td>
+			</tr>
+			<tr>
+				<td>
+					Right Biceps
+				</td>
+				<td><input class="form-control" type="number" value="<?php echo ($measurement == null) ? '0' : $measurement->bicep_right ; ?>" name="bicep_right"></td>
+			</tr>
+			<tr>
+				
+				
+			<td colspan="2" align="center">
+			<input type="submit" class="btn btn-success" value="Update My Measures" name="update" />
+			<input type="reset" class="btn btn-success" value="Reset"/>
+			</td>
+			</tr>
+		</table>
+	</form>
+				
+			
+			
+			
+			
+			
+		  </div>
+	  
+	  
+	  <!---feedback tab --->
+	   <div id="feedbacks" class="tab-pane fade">
+	<div style="border-bottom:1px grey solid;">
+  <h5>Username</h5>
+	<small>The email address</small>
+  <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+</div>
+	  </div>
+  </div>
+	</div>
+
+	@if(count($errors) > 0)
+            @foreach($errors->all() as $error)
+            <div class="alert alert-danger" role="alert">
+            {{ $error }}
+            </div>
+            @endforeach
+    @endif
+
 	@if(session('success'))
     <div class="alert alert-success" role="alert">
         {{ session('success') }}
     </div>
-    @endif
-
-	<!-- Product -->
-	<div class="bg0 m-t-23 p-b-140">
-		<div class="container">
-			<div class="flex-w flex-sb-m p-b-52">
-				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
-					<a href="#" class="stext-106 cl6 bor3 trans-04 m-r-32 m-tb-5">All Products</a>
-
-					<a href="{{ route('shop', ['id' => 1]) }}" class="stext-106 cl6 bor3 trans-04 m-r-32 m-tb-5">Cele</a>
-
-					<a href="{{ route('shop', ['id' => 2]) }}" class="stext-106 cl6 bor3 trans-04 m-r-32 m-tb-5">Designer's Creation</a>
-
-					<a href="{{ route('shop', ['id' => 3]) }}" class="stext-106 cl6 bor3 trans-04 m-r-32 m-tb-5">HtaTwarHtaLar</a>
-
-					<a href="{{ route('shop', ['id' => 4]) }}" class="stext-106 cl6 bor3 trans-04 m-r-32 m-tb-5">Long Dress</a>
-
-					<a href="{{ route('shop', ['id' => 5]) }}" class="stext-106 cl6 bor3 trans-04 m-r-32 m-tb-5">Normal</a>
-
-					<a href="{{ route('shop', ['id' => 6]) }}" class="stext-106 cl6 bor3 trans-04 m-r-32 m-tb-5">Pwel-Tat</a>
-
-					<a href="{{ route('shop', ['id' => 7]) }}" class="stext-106 cl6 bor3 trans-04 m-r-32 m-tb-5">Traditional</a>
-
-					<a href="{{ route('shop', ['id' => 8]) }}" class="stext-106 cl6 bor3 trans-04 m-r-32 m-tb-5">White</a>
-				</div>
-
-				
-				
-				<!-- Search product -->
-				
-
-				<!-- Filter -->
-				
-			</div>
-
-			<div  id="load-data">
-				<div class="row isotope-grid">
-					<!-- Item to be looped -->
-					@foreach($dress as $i)
-                    
-					<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item cele">
-						<!-- Block2 -->
-						<div class="block2">
-							<div class="block2-pic hov-img0" id="dress_image">
-								<img src="{{ asset('dresses/' . $i->dress_photo) }}" alt="IMG-PRODUCT">
-
-								<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1" data-photo="{{ asset('dresses/' . $i->dress_photo) }}" data-aa="{{ $i->dress_id }}">
-									Quick View
-								</a>
-							</div>
-
-							<div class="block2-txt flex-w flex-t p-t-14">
-								<div class="block2-txt-child1 flex-col-l ">
-									<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-										{{ $i->dress_photo }}
-									</a>
-
-									<span class="stext-105 cl3">
-										$16.64
-									</span>
-								</div>
-
-								<div class="block2-txt-child2 flex-r p-t-3">
-									<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-										<img class="icon-heart1 dis-block trans-04" src="{{ asset('external_files/home_page/images/icons/icon-heart-01.png') }}" alt="ICON">
-										<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{{ asset('external_files/home_page/images/icons/icon-heart-02.png') }}" alt="ICON">
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					@endforeach
-					<!-- Item to be looped -->
-				</div>
-			</div>
-            
-            <div>
-            {{ $dress->links() }}
-            </div>
-			<!-- Load more -->
-			<!-- <div class="flex-c-m flex-w w-full p-t-45">
-				<button class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04" id="loadMore">
-                    Load more
-                </button>
-			</div> -->
-		</div>
-	</div>
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<!-- <script>
-		$(document).ready(function(){
-			$(document).on('click','#btn-more',function(){
-			var id = $(this).data('id');
-			$("#btn-more").html("Loading....");
-			$.ajax({
-			url : '{{url("loadmoredata")}}',
-			method : "POST",
-			data : {id:id, _token:"{{csrf_token()}}"},
-			dataType : "text",
-			success : function (data)
-			{
-			if(data != '') 
-			{
-			$('#remove-row').remove();
-			$('#load-data').append(data);
-			}
-			else
-			{
-			$('#btn-more').html("No More Data");
-			}
-			}
-			});
-			}); 
-		});
-	</script> -->
+    @endif	
 
 	<!-- Footer -->
 	<footer class="bg3 p-t-75 p-b-32">
@@ -331,7 +451,7 @@ background-color : #d1d1d1;
 
 				<div class="col-sm-6 col-lg-3 p-b-50">
 					<h4 class="stext-301 cl0 p-b-30">
-						Feedbacks
+					Feedbacks
 					</h4>
 
 					<form>
@@ -425,69 +545,7 @@ background-color : #d1d1d1;
 							<input type="hidden" name="dress" id="dress" value="">
 								
 								
-								<div class="mt-3">
-									<div class="form-group">
-										<div class="row">
-											<div class="col">
-												<label for="tailor">Select Tailor: </label>
-												<select name="tailor" id="tailor" class="form-control">
-													@foreach($tailor as $i)
-													<option value="{{ $i->id }}">{{ $i->name }}</option>
-													@endforeach
-												</select>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-
-										<div class="row">
-											<div class="col"> 
-												<label for="bust">Bust(in cm)</label>
-												<input type="number" name="bust" id="bust" class="form-control" min="0" max="100" value="<?php echo ($measurement == null) ? '0' : $measurement->bust ; ?>" required>
-											</div>
-
-											<div class="col"> 
-												<label for="waist">Waist(in cm)</label>
-												<input type="number" name="waist" id="waist" class="form-control" min="0" max="100" value="<?php echo ($measurement == null) ? '0' : $measurement->waist ; ?>" required>
-											</div>
-										</div>
-
-										<div class="row mt-3">
-											<div class="col"> 
-												<label for="backlength">Backlength(in cm)</label>
-												<input type="number" name="backlength" id="backlength" class="form-control" min="0" max="100" value="<?php echo ($measurement == null) ? '0' : $measurement->backlength ; ?>" required>
-											</div>
-
-											<div class="col"> 
-												<label for="hip">Hip(in cm)</label>
-												<input type="number" name="hip" id="hip" class="form-control" min="0" max="100" value="<?php echo ($measurement == null) ? '0' : $measurement->hip ; ?>" required>
-											</div>
-										</div>
-
-										<div class="row mt-3">
-											<div class="col"> 
-												<label for="bicep_left">Bicep-left(in cm)</label>
-												<input type="number" name="bicep_left" id="bicep_left" class="form-control" min="0" max="100" value="<?php echo ($measurement == null) ? '0' : $measurement->bicep_left ; ?>" required>
-											</div>
-
-											<div class="col"> 
-												<label for="bicep_right">Bicep-right(in cm)</label>
-												<input type="number" name="bicep_right" id="bicep_right" class="form-control" min="0" max="100" value="<?php echo ($measurement == null) ? '0' : $measurement->bicep_right ; ?>" required>
-											</div>
-										</div>
-
-										<?php 
-											if(count($errors) > 0) {
-												$msg = "";
-												foreach($errors->all() as $error) {
-													$msg .= $error . "\\n";
-												}
-												echo '<script type="text/javascript">alert("' . $msg . '")</script>';
-											}
-										?>
-										
-									</div>
-								</div>
+								
 								<br>
 								<div>
 									<h6>Duration :</h6>
@@ -512,7 +570,7 @@ background-color : #d1d1d1;
 	</div>
 
 <!--===============================================================================================-->	
-	<script src="{{ asset('external_files/home_page/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
+<script src="{{ asset('external_files/home_page/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
 <!--===============================================================================================-->
 	<script src="{{ asset('external_files/home_page/vendor/animsition/js/animsition.min.js') }}"></script>
 <!--===============================================================================================-->
@@ -520,24 +578,6 @@ background-color : #d1d1d1;
 	<script src="{{ asset('external_files/home_page/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
 <!--===============================================================================================-->
 	<script src="{{ asset('external_files/home_page/vendor/select2/select2.min.js') }}"></script>
-    <!-- <script>
-        $(function () {
-            $numOfPhotos = $('.myClass').length;
-            //alert($('.myClass').length);
-            $('.myClass').slice(8).hide();
-            $("#loadMore").on('click', function (e) {
-                
-                $(".myClass:hidden").slice(0, 4).show();
-                /* if ($("div:hidden").length == 0) {
-                    $("#load").fadeOut('slow');
-                }
-                $('html,body').animate({
-                    scrollTop: $(this).offset().top
-                }, 1500); */
-            });
-        });
-    </script> -->
-    
 	<script>
 		$('#dress_image a').click(function(){
 			image = $(this).data('photo');

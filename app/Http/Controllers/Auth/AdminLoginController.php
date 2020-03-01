@@ -82,10 +82,16 @@ class AdminLoginController extends Controller
             $customer = User::where('is_tailor', 0)->get();
             $tailor = User::where('is_tailor', 1)->get();
 
+            $trending_dress = DB::table('dress')
+                ->join('trending_dress', 'dress.dress_id', '=', 'trending_dress.dress_id')
+                ->select('dress.*', 'trending_dress.*')
+                ->get();
+
             return view('auth.adminPage', [
                 'username' => auth()->guard('admin')->user()->name,
                 'customer' => $customer,
                 'tailor' => $tailor,
+                'trending_dress' => $trending_dress,
             ]);
             //dd(auth()->guard('admin')->user()->name);
 

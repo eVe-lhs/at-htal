@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Dress;
 use App\User;
+use Auth;
 
 class MainController extends Controller
 {
@@ -22,15 +23,35 @@ class MainController extends Controller
                 ->join('trending_dress', 'dress.dress_id', '=', 'trending_dress.dress_id')
                 ->select('dress.*', 'trending_dress.*')
                 ->get();
+        $tailor = User::where('is_tailor', 1)->get();
+        $measurement = DB::table('measurement')->where('customer_id', Auth::user()->id)->first();
         //return $dress;
-        return view('at_htel_home_page')->with('profile', $dress);
+        return view('at_htel_home_page', ['dress' => $dress, 'tailor' => $tailor, 'measurement' => $measurement]);
     }
 
-    public function show_shop_page() {
-        $dress = DB::table('dress')->orderBy('dress_id', 'desc')->limit(4)->get();
+    public function show_shop_page($id = null) {
+        //$dress = DB::table('dress')->paginate(8);
+        
+        if(!$id == null){
+            $dress = DB::table('dress')->where('dress_type_id', $id)->paginate(8);
+        }
+        else{
+            $dress = DB::table('dress')->paginate(8);
+        }
         $tailor = User::where('is_tailor', 1)->get();
-        return view('catalog_page', ['dress' => $dress, 'tailor' => $tailor]);
+        $measurement = DB::table('measurement')->where('customer_id', Auth::user()->id)->first();
+
+        return view('catalog_page', ['dress' => $dress, 'tailor' => $tailor, 'measurement' => $measurement]);
     }
+
+    public function show_profile() {
+        $user = User::where('id', Auth::user()->id)->first();
+        //echo $user->name;
+        $measurement = DB::table('measurement')->where('customer_id', Auth::user()->id)->first();
+        return view('profile_view', ['user' => $user, 'measurement' => $measurement]);
+    }
+
+    
 
     /**
      * Show the form for creating a new resource.

@@ -38,7 +38,7 @@
 </head>
 <body class="animsition">
     <!-- Header -->
-	<header>
+	<header class="header-v4">   <!--<header> this is original in home page-->
 		<!-- Header desktop -->
 		<div class="container-menu-desktop">
 			<!-- Topbar -->
@@ -55,7 +55,7 @@
 					<div class="menu-desktop">
 						<ul class="main-menu">
 							<li class="active-menu">
-								<a href="#">Home</a>
+								<a href="{{ route('home_page') }}">Home</a>
 								
 							</li>
 
@@ -89,9 +89,13 @@
 							<div class="pull-right mt-2">{{ Auth::user()->name }}</div>
 							</button>
 							<div class="dropdown-menu">
-								<a class="dropdown-item" href="#">Settings</a>
+								<a class="dropdown-item" href="{{ route('profile') }}">Edit profile</a>
 								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="{{ route('logout') }}">Logout</a>
+								<a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">Logout</a>
+								<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
 							</div>
 						</div>
 					</div>
@@ -170,7 +174,7 @@
 					<h1 class="stext-301 cl0 p-b-30">
 						AT-HTEL
 					</h1>
-					<p>We are trying to give the best services we can.  We Promise our products will not destroy your hopes.</p>
+					<p class="stext-107 cl7 size-201">We are trying to give the best services we can.  We Promise our products will not destroy your hopes.</p>
 
 					
 				</div>
@@ -203,7 +207,7 @@
 
 				<div class="col-sm-6 col-lg-3 p-b-50">
 					<h4 class="stext-301 cl0 p-b-30">
-						Newsletter
+						Feedbacks
 					</h4>
 
 					<form>
