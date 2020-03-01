@@ -30,6 +30,22 @@ class UserSeeder extends Seeder
                 'phone_number' => '09123456789',
                 'address' => 'Yangon',
             ],
+            [
+                'name' => 'Helen',
+                'email' => 'helen@gmail.com',
+                'is_tailor' => '0',
+                'password' => bcrypt('12345678'),
+                'phone_number' => '09234345566',
+                'address' => 'Yangon',
+            ],
+            [
+                'name' => 'Jinny',
+                'email' => 'jinny@gmail.com',
+                'is_tailor' => '1',
+                'password' => bcrypt('12345678'),
+                'phone_number' => '09254542255',
+                'address' => 'Yangon',
+            ],
         ];
 
         foreach($user as $key => $value) {

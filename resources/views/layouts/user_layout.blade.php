@@ -65,7 +65,7 @@
 								<a href="{{ route('shop') }}">Shop</a>
 							</li>
 							<li>
-								<a href="shoping-cart.html">Cart</a>
+								<a href="{{ route('cart') }}">Cart</a>
 							</li>
 
 						
@@ -246,6 +246,7 @@
 		</span>
 	</div>
     <!--===============================================================================================-->	
+	<script src="{{ asset('external_files/home_page/js/date.js') }}"></script>
 <script src="{{ asset('external_files/home_page/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
 <!--===============================================================================================-->
 	<script src="{{ asset('external_files/home_page/vendor/animsition/js/animsition.min.js') }}"></script>

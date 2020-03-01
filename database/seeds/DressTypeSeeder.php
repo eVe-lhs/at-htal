@@ -14,7 +14,7 @@ class DressTypeSeeder extends Seeder
     {
         DB::table('dress_type')->insert([
             ['dress_type_name' => 'Cele'],
-            ['dress_type_name' => 'DesignCreation'],
+            ['dress_type_name' => 'Designer\'sCreation'],
             ['dress_type_name' => 'HtaTwarHtaLar'],
             ['dress_type_name' => 'LongDress'],
             ['dress_type_name' => 'Normal'],

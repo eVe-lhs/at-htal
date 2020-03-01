@@ -341,6 +341,8 @@
 											</div>
 										</div>
 
+										<div class="row mt-3">Don't you know how to measure?<a href="{{ route('measurement') }}">See how to do measurements.</a></div>
+
 										<?php 
 											if(count($errors) > 0) {
 												$msg = "";
@@ -356,7 +358,7 @@
 								<br>
 								<div>
 									<h6>Duration :</h6>
-
+									<input type="date" name="date" id="date" class="form-control input-sm " required />
 								</div>
 								<br>
 								<div>

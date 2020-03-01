@@ -45,7 +45,7 @@ Route::get('jquery', function() {
 
 Route::get('/home_page', 'MainController@index')->name('home_page');
 Route::get('/shop/{id?}', 'MainController@show_shop_page')->name('shop');
-
+Route::get('/cart', 'MainController@show_cart_page')->name('cart');
 
 Route::post('loadmoredata','jobsController@loadmoredata');
 Route::post('/order', 'OrderController@store')->name('order');
@@ -53,6 +53,7 @@ Route::get('/profile', 'MainController@show_profile')->name('profile');
 Route::post('/profile/edit_password', 'ProfileController@update_password')->name('password_update');
 Route::post('/profile/edit_profile', 'ProfileController@update_profile')->name('profile_update');
 Route::post('/profile/edit_measurement', 'ProfileController@update_measurement')->name('measurement_update');
+Route::get('/measurement', 'MainController@view_how_to_measure')->name('measurement');
 
 //Admin routes
 Route::get('admin/tailors','UserController@tailor_list');

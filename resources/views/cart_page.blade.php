@@ -43,7 +43,7 @@ background-color : #d1d1d1;
 }
 </style> -->
 </head>
-<body class="animsition" onload=”valiDate()”>
+<body class="animsition">
 	
 	<!-- Header -->
 	<header class="header-v4">
@@ -69,10 +69,10 @@ background-color : #d1d1d1;
 
 							
 
-							<li class="label1 active-menu" data-label1="hot">
+							<li class="label1" data-label1="hot">
 								<a href="{{ route('shop') }}">Shop</a>
 							</li>
-							<li>
+							<li class="active-menu">
 								<a href="{{ route('cart') }}">Cart</a>
 							</li>
 
@@ -165,124 +165,106 @@ background-color : #d1d1d1;
 			</ul>
 		</div>
 	</header>
-
-	@if(session('success'))
-    <div class="alert alert-success" role="alert">
-        {{ session('success') }}
-    </div>
-    @endif
-
-	<!-- Product -->
-	<div class="bg0 m-t-23 p-b-140">
+<form class="bg0 p-t-75 p-b-85">
 		<div class="container">
-			<div class="flex-w flex-sb-m p-b-52">
-				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
-					<a href="#" class="stext-106 cl6 bor3 trans-04 m-r-32 m-tb-5">All Products</a>
-
-					<a href="{{ route('shop', ['id' => 1]) }}" class="stext-106 cl6 bor3 trans-04 m-r-32 m-tb-5">Cele</a>
-
-					<a href="{{ route('shop', ['id' => 2]) }}" class="stext-106 cl6 bor3 trans-04 m-r-32 m-tb-5">Designer's Creation</a>
-
-					<a href="{{ route('shop', ['id' => 3]) }}" class="stext-106 cl6 bor3 trans-04 m-r-32 m-tb-5">HtaTwarHtaLar</a>
-
-					<a href="{{ route('shop', ['id' => 4]) }}" class="stext-106 cl6 bor3 trans-04 m-r-32 m-tb-5">Long Dress</a>
-
-					<a href="{{ route('shop', ['id' => 5]) }}" class="stext-106 cl6 bor3 trans-04 m-r-32 m-tb-5">Normal</a>
-
-					<a href="{{ route('shop', ['id' => 6]) }}" class="stext-106 cl6 bor3 trans-04 m-r-32 m-tb-5">Pwel-Tat</a>
-
-					<a href="{{ route('shop', ['id' => 7]) }}" class="stext-106 cl6 bor3 trans-04 m-r-32 m-tb-5">Traditional</a>
-
-					<a href="{{ route('shop', ['id' => 8]) }}" class="stext-106 cl6 bor3 trans-04 m-r-32 m-tb-5">White</a>
-				</div>
-
-				
-				
-				<!-- Search product -->
-				
-
-				<!-- Filter -->
-				
-			</div>
-
-			<div  id="load-data">
-				<div class="row isotope-grid">
-					<!-- Item to be looped -->
-					@foreach($dress as $i)
-                    
-					<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item cele">
-						<!-- Block2 -->
-						<div class="block2">
-							<div class="block2-pic hov-img0" id="dress_image">
-								<img src="{{ asset('dresses/' . $i->dress_photo) }}" alt="IMG-PRODUCT">
-
-								<a href="#" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-modal1" data-photo="{{ asset('dresses/' . $i->dress_photo) }}" data-id="{{ $i->dress_id }}" data-price="<?php echo number_format($i->price) ?>">
-									Quick View
-								</a>
-							</div>
-
-							<div class="block2-txt flex-w flex-t p-t-14">
-								<div class="block2-txt-child1 flex-col-l ">
-									<a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
-										{{ $i->dress_photo }}
-									</a>
-
-									<span class="stext-105 cl3" id="price">
-										MMK <?php echo number_format($i->price) ?>
-									</span>
-								</div>
+			<div class="row">
+				<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
+					<div class="m-l-25 m-r--38 m-lr-0-xl">
+						<div class="wrap-table-shopping-cart">
+							<table class="table-shopping-cart">
+								<tr class="table_head">
+									<th class="column-1">Product</th>
+									<th class="column-2">Price</th>
+									<th class="column-3 ">Quantity</th>
+									<th class="column-4">Order Status</th>
+									<th class="column-5">Ordered Date</th>
+								</tr>
+                            <?php $total_price = 0; ?>
+                            @foreach($orders as $i)
+                            <?php 
+                                $total_price += $i->price;
+                            ?>
+                            <!-- Item to be looped-->
+								<tr class="table_row">
+									<td class="column-1">
+										<div class="how-itemcart1">
+											<img src="{{ asset('dresses/' . $i->dress_photo) }}" alt="IMG">
+										</div>
+									</td>
+									<td class="column-2">MMK <?php echo number_format($i->price); ?></td>
+									<td class="column-3">1</td>
+									<td class="column-4">{{ $i->order_status }}</td>
+									<td class="column-5">{{ $i->created_at }}</td>
+								</tr>
+                            <!-- Item to be looped-->
+                            @endforeach
 
 								
+							</table>
+						</div>
+
+						
+					</div>
+				</div>
+
+				<div class="col-sm-10 col-lg-7 col-xl-5 m-lr-auto m-b-50">
+					<div class="bor10 p-lr-40 p-t-30 p-b-40 m-l-63 m-r-40 m-lr-0-xl p-lr-15-sm">
+						<h4 class="mtext-109 cl2 p-b-30">
+							Cart Totals
+						</h4>
+
+						<div class="flex-w flex-t bor12 p-b-13">
+							<div class="size-208">
+								<span class="stext-110 cl2">
+									Subtotal:
+								</span>
+							</div>
+
+							<div class="size-209">
+								<span class="mtext-110 cl2">
+									MMK <?php echo number_format($total_price); ?>
+								</span>
 							</div>
 						</div>
+
+						<div class="flex-w flex-t bor12 p-t-15 p-b-30">
+							<div class="size-208 w-full-ssm">
+								<span class="stext-110 cl2">
+									Notice:
+								</span>
+							</div>
+
+							<div class="size-209 p-r-18 p-r-0-sm w-full-ssm">
+								<p class="stext-111 cl6 p-t-2">
+									As soon as your order finish, we will contact you immediately. <br>
+									Thank you for ordering via our website.
+								</p>
+								
+								<div class="p-t-15">
+									
+
+									
+
+									
+									
+									
+										
+								</div>
+							</div>
+						</div>
+
+						<div class="flex-w flex-t p-t-27 p-b-33">
+							
+
+						</div>
+
+						
 					</div>
-					@endforeach
-					<!-- Item to be looped -->
 				</div>
 			</div>
-            
-            <div>
-            {{ $dress->links() }}
-            </div>
-			<!-- Load more -->
-			<!-- <div class="flex-c-m flex-w w-full p-t-45">
-				<button class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04" id="loadMore">
-                    Load more
-                </button>
-			</div> -->
 		</div>
-	</div>
-
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<!-- <script>
-		$(document).ready(function(){
-			$(document).on('click','#btn-more',function(){
-			var id = $(this).data('id');
-			$("#btn-more").html("Loading....");
-			$.ajax({
-			url : '{{url("loadmoredata")}}',
-			method : "POST",
-			data : {id:id, _token:"{{csrf_token()}}"},
-			dataType : "text",
-			success : function (data)
-			{
-			if(data != '') 
-			{
-			$('#remove-row').remove();
-			$('#load-data').append(data);
-			}
-			else
-			{
-			$('#btn-more').html("No More Data");
-			}
-			}
-			});
-			}); 
-		});
-	</script> -->
-
-	<!-- Footer -->
-	<footer class="bg3 p-t-75 p-b-32">
+</form>
+<footer class="bg3 p-t-75 p-b-32">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-6 col-lg-2 p-b-50">
@@ -366,150 +348,9 @@ background-color : #d1d1d1;
 		</span>
 	</div>
 
-	<!-- Modal1 -->
-	<div class="wrap-modal1 js-modal1 p-t-60 p-b-20">
-		<div class="overlay-modal1 js-hide-modal1"></div>
-
-		<div class="container">
-			<div class="bg0 p-t-60 p-b-30 p-lr-15-lg how-pos3-parent">
-				<button class="how-pos3 hov3 trans-04 js-hide-modal1">
-					<img src="{{ asset('external_files/home_page/images/icons/icon-close.png') }}" alt="CLOSE">
-				</button>
-
-				<div class="row">
-					<div class="col-md-6 col-lg-7 p-b-30">
-						<div class="p-l-25 p-r-30 p-lr-0-lg">
-							<div class="wrap-slick3 flex-sb flex-w">
-								<div class="wrap-slick3-dots"></div>
-								<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
-
-								<div class="slick3 gallery-lb">
-									<div class="item-slick3" data-thumb="images/product-detail-01.jpg">
-										<div class="wrap-pic-w pos-relative"  id="modal_image">
-											<img src="images/product-detail-01.jpg" alt="IMG-PRODUCT">
-
-											<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04 zoom" href="images/product-detail-01.jpg">
-												<i class="fa fa-expand"></i>
-											</a>
-										</div>
-									</div>
-
-									
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					<div class="col-md-6 col-lg-5 p-b-30">
-					<div class="p-r-50 p-t-5 p-lr-0-lg">
-						<h4 class="mtext-105 cl2 js-name-detail p-b-14">
-							Lightweight Jacket
-						</h4>
-
-						<span class="mtext-106 cl2" id="price-modal">
-							MMK58.79
-						</span>
-
-						
-						
-						<!--  -->
-						<div class="mt-3">
-							<form action="{{ route('order') }}" method="post">
-							@csrf
-							<input type="hidden" name="customer" id="" value="{{ Auth::user()->id }}">
-							<input type="hidden" name="dress" id="dress" value="">
-								
-								
-								<div class="mt-3">
-									<div class="form-group">
-										<div class="row">
-											<div class="col">
-												<label for="tailor">Select Tailor: </label>
-												<select name="tailor" id="tailor" class="form-control">
-													@foreach($tailor as $i)
-													<option value="{{ $i->id }}">{{ $i->name }}</option>
-													@endforeach
-												</select>
-											</div>
-										</div>
-									</div>
-									<div class="form-group">
-
-										<div class="row">
-											<div class="col"> 
-												<label for="bust">Bust(in cm)</label>
-												<input type="number" name="bust" id="bust" class="form-control" min="0" max="100" value="<?php echo ($measurement == null) ? '0' : $measurement->bust ; ?>" required>
-											</div>
-
-											<div class="col"> 
-												<label for="waist">Waist(in cm)</label>
-												<input type="number" name="waist" id="waist" class="form-control" min="0" max="100" value="<?php echo ($measurement == null) ? '0' : $measurement->waist ; ?>" required>
-											</div>
-										</div>
-
-										<div class="row mt-3">
-											<div class="col"> 
-												<label for="backlength">Backlength(in cm)</label>
-												<input type="number" name="backlength" id="backlength" class="form-control" min="0" max="100" value="<?php echo ($measurement == null) ? '0' : $measurement->backlength ; ?>" required>
-											</div>
-
-											<div class="col"> 
-												<label for="hip">Hip(in cm)</label>
-												<input type="number" name="hip" id="hip" class="form-control" min="0" max="100" value="<?php echo ($measurement == null) ? '0' : $measurement->hip ; ?>" required>
-											</div>
-										</div>
-
-										<div class="row mt-3">
-											<div class="col"> 
-												<label for="bicep_left">Bicep-left(in cm)</label>
-												<input type="number" name="bicep_left" id="bicep_left" class="form-control" min="0" max="100" value="<?php echo ($measurement == null) ? '0' : $measurement->bicep_left ; ?>" required>
-											</div>
-
-											<div class="col"> 
-												<label for="bicep_right">Bicep-right(in cm)</label>
-												<input type="number" name="bicep_right" id="bicep_right" class="form-control" min="0" max="100" value="<?php echo ($measurement == null) ? '0' : $measurement->bicep_right ; ?>" required>
-											</div>
-										</div>
-
-										<div class="row mt-3">Don't you know how to measure?<a href="{{ route('measurement') }}">See how to do measurements.</a></div>
-
-										<?php 
-											if(count($errors) > 0) {
-												$msg = "";
-												foreach($errors->all() as $error) {
-													$msg .= $error . "\\n";
-												}
-												echo '<script type="text/javascript">alert("' . $msg . '")</script>';
-											}
-										?>
-										
-									</div>
-								</div>
-								<br>
-								<div>
-									<h6>Duration :</h6>
-									<input type="date" name="date" id="date" class="form-control input-sm " required />
-								</div>
-								<br>
-								<div>
-
-									<button type="submit" class="flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btnS p-lr-15 m-r-16 trans-04">
-										Order
-									</button>
-								</div>
-							</form>
-						</div>
-
-						
-						
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	
 
 <!--===============================================================================================-->	
-	<script src="{{ asset('external_files/home_page/js/date.js') }}"></script>
 	<script src="{{ asset('external_files/home_page/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
 <!--===============================================================================================-->
 	<script src="{{ asset('external_files/home_page/vendor/animsition/js/animsition.min.js') }}"></script>

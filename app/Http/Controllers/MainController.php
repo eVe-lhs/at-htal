@@ -51,7 +51,19 @@ class MainController extends Controller
         return view('profile_view', ['user' => $user, 'measurement' => $measurement]);
     }
 
-    
+    public function show_cart_page() {
+        $orders = DB::table('order')
+                    ->join('dress', 'order.dress_id', '=', 'dress.dress_id')
+                    ->select('order.*', 'dress.*')
+                    ->where('order.customer_id', Auth::user()->id)
+                    ->get();
+        //return $orders;
+        return view('cart_page', ['orders' => $orders]);
+    }
+
+    public function view_how_to_measure() {
+        return view('measure');
+    }
 
     /**
      * Show the form for creating a new resource.
