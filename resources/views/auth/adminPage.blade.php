@@ -51,17 +51,6 @@ tr:nth-child(odd) {
 	              <a href="#dresses" data-toggle="tab">Dresses</a>
 	          </li>
 	          <li>
-              <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Page Controls</a>
-              <ul class="collapse list-unstyled nav flex-column" id="pageSubmenu">
-                <li>
-                    <a href="#sliders" data-toggle="tab">Slider</a>
-                </li>
-                <li>
-                    <a href="#models" data-toggle="tab">Models</a>
-                </li>
-              </ul>
-	          </li>
-	          <li>
               <a href="#feedbacks" data-toggle="tab">Feedbacks</a>
 	          </li>
                  <li>
@@ -81,6 +70,11 @@ tr:nth-child(odd) {
 
         <!-- Page Content  -->
       <div id="content" class="p-4 p-md-5 tab-content">
+      @if(session('message'))
+      <div class="alert alert-success" role="alert">
+          {{ session('message') }}
+      </div>
+      @endif
           <!-----customer tab---->
           <div id="customers" class="active tab-pane">
         <h2 class="mb-4">Customer Table will be here</h2>
@@ -92,7 +86,6 @@ tr:nth-child(odd) {
             <th>Email</th>
             <th>Phone Number</th>
             <th>Address</th>
-            <th>Total orders</th>
           </tr>
             
           
@@ -103,7 +96,6 @@ tr:nth-child(odd) {
               <td>{{ $i->email }}</td>
               <td>{{ $i->phone_number }}</td>
               <td>{{ $i->address }}</td>
-              <td>0</td>
             </tr> 
             @endforeach
            
@@ -122,7 +114,6 @@ tr:nth-child(odd) {
             <th>Email</th>
             <th>Phone Number</th>
             <th>Address</th>
-            <th>Rating</th>
           </tr>
             
             @foreach($tailor as $i)
@@ -132,7 +123,6 @@ tr:nth-child(odd) {
               <td>{{ $i->email }}</td>
               <td>{{ $i->phone_number }}</td>
               <td>{{ $i->address }}</td>
-              <td>7.5</td>
             </tr>
             @endforeach
             
@@ -140,67 +130,108 @@ tr:nth-child(odd) {
               </div>
           
           
-          <!--- orders tab ---->
-            <div id="orders" class="tab-pane fade">
-        <h2 class="mb-4">Order Table will be here</h2>
-        <p>Total numbers of tailors:</p>
+         
+<!--- orders tab ---->
+<div id="orders" class="tab-pane fade">
+        <h2 class="mb-4">Orders</h2>
         <table class="p-l-3">
           <tr>
-            <th>Name</th>
-            <th>Tailor ID</th>
-            <th>Email</th>
-            <th>Phone Number</th>
-            <th>Rating</th>
-            </tr>
+            <th>Order#</th>
+            <th>Customer Name</th>
+            <th>Tailor Name</th>
+            <th>Dress</th>
+            <th>Order Status</th>
+            <th>Ordered Date</th>
+          </tr>
             
-            <?php /*$db=mysqli_connect("localhost","root","","accounts");
-                 $tablename="";
-                 $rowname="";
-$query="SELECT * FROM users ... BY id DESC";
-    $result=mysqli_query($db,$query);
-while($row=mysqli_fetch_array($result)){
-echo '<tr>
-    <td>'.$row['cname'].'</td>
-<td>'.$row['tid'].'</td>
-<td>'.$row['email'].'</td>
-<td>'.$row['phNo'].'</td>
-<td>'.$row['Rating'].'</td>
-<td><a href="delete.php?del='.$row['cid'].'">Delete User</a></td>
-  </tr>';
-}*/ ?>
+          @foreach($orders as $i)
+          <tr>
+            <td>{{ $i->order_id }}</td>
+            <td>{{ $i->name }}</td>
+            <td>{{ App\User::select('name')->where('id', $i->tailor_id)->first() }}</td>
+            <td><img src="{{ asset('dresses/' . $i->dress_photo) }}" width="100px" height="100px" alt="Image"></td>
+            <td>{{ $i->order_status }}</td>
+            <td>{{ $i->created_at }}</td>
+          </tr>
+          @endforeach
           </table>
               </div>
+
           
-           <!--- dresses tab ---->
-            <div id="dresses" class="tab-pane fade">
-        <h2 class="mb-4">Dresses Table will be here</h2>
-        <p>Total numbers of dresses:</p>
-        <table class="p-l-3">
-          <tr>
-            <th>Name</th>
-            <th>Dress type</th>
-            <th>Standard price</th>
-            <th>---</th>
-            <th>---</th>
-            </tr>
-            
-            <?php /*$db=mysqli_connect("localhost","root","","accounts");
-                 $tablename="";
-                 $rowname="";
-$query="SELECT * FROM users ... BY id DESC";
-    $result=mysqli_query($db,$query);
-while($row=mysqli_fetch_array($result)){
-echo '<tr>
-    <td>'.$row['cname'].'</td>
-<td>'.$row['tid'].'</td>
-<td>'.$row['email'].'</td>
-<td>'.$row['phNo'].'</td>
-<td>'.$row['Rating'].'</td>
-<td><a href="delete.php?del='.$row['cid'].'">Delete User</a></td>
-  </tr>';
-}*/ ?>
-          </table>
+         
+<!--- dresses tab ---->
+<div id="dresses" class="tab-pane fade">
+              <div id="show_dresses">
+                <button type="button" class="btn btn-primary" id="dress_add_btn">Add New Dress</button>
+                <p>Total numbers of dresses:<?php echo count($dress); ?></p>
+                <table class="p-l-3">
+                  <tr>
+                    <th>Dress</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    </tr>
+                  @foreach($dress as $i)
+                  <tr>
+                    <td><img src="{{ asset('dresses/' . $i->dress_photo) }}" width="100px" height="100px" alt="Image"></td>
+                    <td>{{ $i->dress_photo }}</td>
+                    <td>{{ $i->price }}</td>
+                  </tr>
+                  @endforeach
+                  </table>
               </div>
+              <div id="new_dress">
+                <form action="{{ route('admin_dress_add') }}" method="post" enctype="multipart/form-data">
+                  @csrf
+                  <div class="row">
+                      <div class="col">
+                          <label for="">Dress Photo</label>
+                          <input type="file" name="dress_photo" id="">
+                      </div>
+                      <div class="col">
+                          <label for="dress_list">Dress Type</label>
+                          <select name="dress_type_id" id="dress_list" class="form-control">
+                          @foreach($dress_type as $i)
+                              <option value="{{ $i->dress_type_id }}">{{ $i->dress_type_name }}</option>
+                          @endforeach
+                          </select>
+                      </div>
+                      <div class="col">
+                        <label for="price">Price</label>
+                        <input type="text" name="price" id="price" class="form-control">
+                      </div>
+                      <!-- <div class="col">
+                          <input type="text" name="" id="description">
+                      </div> -->
+                      
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                    <input type="submit" name="" id="" value="Add">
+                    </div>
+                  </div>
+                </form>
+                <br><br>
+                <button type="button" id="new_dress_back_btn">Back</button>
+              </div>
+            </div>
+              
+            <script>
+                $('#new_dress').hide();
+                if($('#new_dress').is(':hidden')) {
+                  $('#new_dress_back_btn').hide();
+                }
+                $('#dress_add_btn').click(function() {
+                  $('#show_dresses').hide();
+                  $('#new_dress').show();
+                  $('#new_dress_back_btn').show();
+                });
+                $('#new_dress_back_btn').click(function() {
+                  $('#show_dresses').show();
+                  $('#new_dress').hide();
+                  $('#new_dress_back_btn').hide();
+                });
+            </script>
+
           
             <!--- sliders tab ---->
             <div id="sliders" class="tab-pane fade">
@@ -263,16 +294,23 @@ echo '<tr>
           </script>
           
           
-          <!---feedback tab --->
-           <div id="feedbacks" class="tab-pane fade">
-        <div style="border-bottom:1px grey solid;">
-      <h5>Username</h5>
-        <small>The email address</small>
-      <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    </div>
+         <!---feedback tab --->
+         <div id="feedbacks" class="tab-pane fade">
+           <h2 class="mb-4">Feedbacks</h2>
+            <table class="p-l-3">
+              <tr>
+                <th>Customer Name</th>
+                <th>Feedback Description</th>
+              </tr>
+              @foreach($feedbacks as $i)
+              <tr>
+               
+                <td>{{ $i->name }}</td>
+                <td>{{ $i->content }}</td>
+                @endforeach
+              </tr>
+            </table>
           </div>
-      </div>
-		</div>
 
     <script src="{{ asset('external_files/admin_page/js/jquery.min.js') }}"></script>
     <script src="{{ asset('external_files/admin_page/js/popper.js') }}"></script>

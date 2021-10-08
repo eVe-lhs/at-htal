@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Tailor;
 
 use App\Customer;
-
+use App\User;
 use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Support\Facades\DB;
@@ -22,10 +22,9 @@ class UserController extends Controller
     public function authenticate(Request $request) {
 
         $encrypted_pw = $this->get_encrypted_password($request->password);
-
-        $user = DB::table('tailor')
-               ->where('tailor_email', $request->email)
-               ->where('tailor_password', $encrypted_pw)
+        $user = DB::table('users')
+               ->where('email', $request->email)
+               ->where('password', $encrypted_pw)
                ->get();
 
         if(count($user) > 0) {
@@ -50,7 +49,7 @@ class UserController extends Controller
 
     }
 
-    private function get_encrypted_password($plain_password) {
+    public function get_encrypted_password($plain_password) {
         $ciphering = "AES-128-CTR";
         $options = 0;
         $encryption_iv = '1234567891011121';
@@ -59,26 +58,6 @@ class UserController extends Controller
         $encryption_key, $options, $encryption_iv);
         return $encrypted_pw;
     }
-
-    public function tailor_list()
-    {
-        //echo "code will be here";
-
-        /* $tailor = DB::table('tailor')
-               ->where('address', 'Yangon')
-               ->get();
-        return view('tailor_view', ['tailor'=>$tailor]); */
-
-        $tailor = Tailor::all();
-        return view('tailor_list_view', ['tailor' => $tailor]);
-        //return view('tailor_view')->with('tailor', $tailor);
-    }
-
-    public function customer_list() {
-        $customer = Customer::all();
-        return view('customer_list_view', ['customer' => $customer]);
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -110,24 +89,32 @@ class UserController extends Controller
         //echo gettype($validated_data);
 
         if($request->user_type == "tailor") {
-            $tailor = new Tailor;
-            $tailor->tailor_name = $request->name;
-            $encrypted_pw = $this->getEncryptedPassword($request->password);
-            $tailor->tailor_password = $encrypted_pw;
-            $tailor->tailor_email = $request->email;
-            $tailor->phone_number = $request->phone_number;
+            $tailor = new User;
+            $tailor->name = $request->name;
+            $encrypted_pw =Hash::make($request->password, [
+                'rounds' => 12
+            ]);
+            $tailor->password = $encrypted_pw;
+            $tailor->email = $request->email;
+            $tailor->is_tailor=1;
+            $tailor->number = $request->phone_number;
             $tailor->address = $request->address;
-            echo $tailor->save();
+            $tailor->save();
+            return redirect()->route('login')->with('message', 'Your account has been successfully created!!');
         }
         else {
-            $customer = new Customer;
-            $customer->customer_name = $request->name;
-            $encrypted_pw = $this->getEncryptedPassword($request->password);
-            $customer->customer_password = $encrypted_pw;
-            $customer->customer_email = $request->email;
+            $customer = new User;
+            $customer->name = $request->name;
+            $encrypted_pw =Hash::make($request->password, [
+                'rounds' => 12
+            ]);
+            $customer->password = $encrypted_pw;
+            $customer->email = $request->email;
+            $customer->is_tailor=0;
             $customer->phone_number = $request->phone_number;
             $customer->address = $request->address;
-            echo $customer->save();
+            $customer->save();
+            return redirect()->route('login')->with('message', 'Your account has been successfully created!!');
         }
     }
 

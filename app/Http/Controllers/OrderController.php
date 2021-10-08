@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Notifications\noti;
+use App\Notifications\orderReply;
 use Illuminate\Support\Facades\DB;
-
+use App\Post;
+use App\User;
+use App\Notifications\NotifyTailor;
 use Auth;
 
 class OrderController extends Controller
@@ -55,17 +58,69 @@ class OrderController extends Controller
 
         $order = DB::table('order')->insert([
             ['customer_id' => $request->customer, 'tailor_id' => $request->tailor, 'dress_id' => $request->dress,
+            'deadline'=>$request->date,
             'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
             'updated_at' => \Carbon\Carbon::now()->toDateTimeString()]
         ]);
 
         //return $order = DB::table('order')->select('created_at')->get();
 
-        return redirect()->route('shop')->with('success', 'Your order has been successfully sent');
+        $tailorId=$request->tailor;
+        $dressId=$request->dress;
+        //echo $order_id;
+        User::find($tailorId)->notify((new noti($tailorId,$dressId)));
+       return redirect()->back();
 
         //dd($measurement);
     }
-
+public function accept($orderId,$customerId){
+    $tailor = DB::table('order')
+    ->join('users','order.tailor_id','=','users.id')
+    ->select('users.*')
+    ->where('order.order_id',$orderId)
+    ->get();
+    $status='Accepted';
+    DB::table('order')
+     ->where('order_id',$orderId)
+     ->update(
+        ['order_status' => 'confirmed']
+     ); 
+     foreach($tailor as $t){
+     User::find($customerId)->notify((new orderReply($t->name,$status)));}
+    return redirect()->back();
+}
+public function deny($orderId,$customerId){
+    $tailor = DB::table('order')
+    ->join('users','order.tailor_id','=','users.id')
+    ->select('users.*')
+    ->where('order.order_id',$orderId)
+    ->get();
+    $status='denied';
+    DB::table('order')
+     ->where('order_id',$orderId)
+     ->update(
+        ['order_status' => 'denied']
+     ); 
+     foreach($tailor as $t){
+     User::find($customerId)->notify((new orderReply($t->name,$status)));}
+    return redirect()->back();
+}
+public function finish($orderId,$customerId){
+    $tailor = DB::table('order')
+    ->join('users','order.tailor_id','=','users.id')
+    ->select('users.*')
+    ->where('order.order_id',$orderId)
+    ->get();
+    $status='finished. You will receive soon.';
+    DB::table('order')
+     ->where('order_id',$orderId)
+     ->update(
+        ['order_status' => 'completed']
+     ); 
+     foreach($tailor as $t){
+     User::find($customerId)->notify((new orderReply($t->name,$status)));}
+    return redirect()->back();
+ }
     /**
      * Display the specified resource.
      *

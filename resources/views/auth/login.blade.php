@@ -40,7 +40,7 @@
 					</button><br>
 					<br>
 					<div>
-						<h4>Don't have an account?<a href="/user_register"> Sign up Now!</a> </h4></div>
+						<h4>Don't have an account?<a href="{{ route('register') }}"> Sign up Now!</a> </h4></div>
 				</form>
 			</div>
 			<div>

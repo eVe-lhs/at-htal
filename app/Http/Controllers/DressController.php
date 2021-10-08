@@ -55,21 +55,24 @@ class DressController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $validated_data = $request->validate([
-            'dress_photo' => 'required|mimes:jpeg,jpg,png'
-        ]);
-        $file = $request->file('dress_photo');
-        $image_name = $file->getClientOriginalName();
-        $filename = $image_name;
-        $file->move('dresses/', $filename);
-        DB::table('dress')->insert(
-            ['dress_type_id' => $request->dress_type_id, 'dress_photo' => $filename]
-        );
+    
+public function store(Request $request)
+{
+    $validated_data = $request->validate([
+        'dress_photo' => 'required|mimes:jpeg,jpg,png',
+        'price' => 'required'
+    ]);
+    $file = $request->file('dress_photo');
+    $image_name = $file->getClientOriginalName();
+    $filename = $image_name;
+    $file->move('dresses/', $filename);
+    DB::table('dress')->insert(
+        ['dress_type_id' => $request->dress_type_id, 'dress_photo' => $filename, 'price' => $request->price]
+    );
 
-        return redirect()->route('admin_dress_add')->with('message', 'Dress has been successfully added to database !');
-    }
+    return redirect()->route('admin-home')->with('message', 'Dress has been successfully added to database !');
+}
+    
 
     public function display_trending_dress_view() {
         //$dress_count = DB::table('trending_dress')->count();

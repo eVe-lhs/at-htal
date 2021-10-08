@@ -16,6 +16,7 @@
 	<link rel="stylesheet" href="{{ asset('external_files/home_page/vendor/animate/animate.css') }}">
 <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="{{ asset('external_files/home_page/vendor/css-hamburgers/hamburgers.min.css') }}">
+	<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <!--===============================================================================================-->	
     <!-- error here--> 
 	<!-- <link rel="stylesheet" type="text/css" href="{{ asset('external_files/vendor/animsition/css/animsition.min.css') }}"> -->
@@ -33,7 +34,8 @@
 	<link rel="stylesheet" type="text/css" href="{{ asset('external_files/home_page/css/util.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('external_files/home_page/css/main.css') }}">
 <!--===============================================================================================-->
-	<link rel="icon" type="image/png" href="{{ asset('external_files/home_page/images/icons/favicon.png') }}">
+<link rel="icon" type="image/png" href="{{ asset('external_files/home_page/images/logo.png') }}" sizes="50x20">
+<link rel="stylesheet" type="text/css" href="{{ asset('external_files/home_page/css/bootstrap.profile.css') }}">
 <!--===============================================================================================-->
 </head>
 <body class="animsition">
@@ -47,14 +49,14 @@
 				<nav class="limiter-menu-desktop container">
 					
 					<!-- Logo desktop -->		
-					<a href="#" class="logo">
+					<a href="{{ route('home_page') }}" class="logo">
 						<img src="{{ asset('external_files/home_page/images/icons/logo-01.png') }}" alt="IMG-LOGO">
 					</a>
 
 					<!-- Menu desktop -->
 					<div class="menu-desktop">
 						<ul class="main-menu">
-							<li class="active-menu">
+							<li>
 								<a href="{{ route('home_page') }}">Home</a>
 								
 							</li>
@@ -71,18 +73,37 @@
 						
 
 							<li>
-								<a href="about.html">About</a>
+								<a href="{{route('about1')}}">About</a>
 							</li>
 
 							<li>
-								<a href="contact.html">Contact</a>
+								<a href="{{route('contact1')}}">Contact</a>
 							</li>
 						</ul>
 					</div>	
 
 					<!-- Icon header -->
+				
 					<div class="wrap-icon-header flex-w flex-r-m">
-						
+					<li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <i class="fa fa-bell" style="color:black;"></i><span class="badge badge-light">{{Auth::user()->unreadNotifications->count()}}</span>
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <li ><a href="{{route('markRead')}}" style="color:green;">Mark all as Read</a></li>
+                                @foreach(Auth::user()->unreadNotifications as $notification)
+
+                         
+                                   <li style="background-color:lightgrey;" class="dropdown-item"><a href="{{route('markReadOne')}}" style="color:black;" ><p>Your order to '{{ $notification->data['tailor'] }}' is <b>{{ $notification->data['status'] }}</b></p></a></li>
+                                   @endforeach
+                                   @foreach(Auth::user()->readNotifications as $notification)
+
+                              
+                                   <li class="dropdown-item"><a href="{{ route('cart') }}" style="color:black;" >Your order to '{{ $notification->data['tailor'] }}' is <b>{{ $notification->data['status'] }}</b></p></a></li>
+                                   @endforeach
+                                </ul>
+                            </li>
 						<div class="btn-group dropright">
 							<button type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							<img src="{{ asset('external_files/home_page/images/icons/Profilelogo.jpg') }}" width="40px" height="40px">
@@ -109,11 +130,42 @@
 		<div class="wrap-header-mobile">
 			<!-- Logo moblie -->		
 			<div class="logo-mobile">
-				<a href="index.html"><img src="{{ asset('external_files/home_page/images/icons/logo-01.png') }}" alt="IMG-LOGO"></a>
+				<a href="{{route('home_page')}}"><img src="{{ asset('external_files/home_page/images/icons/logo-01.png') }}" alt="IMG-LOGO"></a>
 			</div>
-
+			<div class="btn-group dropright">
+							<button type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<div class="pull-right mt-2">{{ Auth::user()->name }}</div>
+							</button>
+							<div class="dropdown-menu">
+								<a class="dropdown-item" href="{{ route('profile') }}">Edit profile</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                document.getElementById('logout-form').submit();">Logout</a>
+								<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+							</div>
+						</div>
 			<!-- Icon header -->
-			
+			<li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <i class="fa fa-bell" style="color:black;"></i><span class="badge badge-light">{{Auth::user()->unreadNotifications->count()}}</span>
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <li ><a href="{{route('markRead')}}" style="color:green;">Mark all as Read</a></li>
+                                @foreach(Auth::user()->unreadNotifications as $notification)
+
+                         
+                                   <li style="background-color:lightgrey;" class="dropdown-item"><a href="{{route('markReadOne')}}" style="color:black;" ><p>Your order to '{{ $notification->data['tailor'] }}' is <b>{{ $notification->data['status'] }}</b></p></a></li>
+                                   @endforeach
+                                   @foreach(Auth::user()->readNotifications as $notification)
+
+                              
+                                   <li class="dropdown-item"><a href="{{ route('cart') }}" style="color:black;" >Your order to '{{ $notification->data['tailor'] }}' is <b>{{ $notification->data['status'] }}</b></p></a></li>
+                                   @endforeach
+                                </ul>
+                            </li>
 
 			<!-- Button show menu -->
 			<div class="btn-show-menu-mobile hamburger hamburger--squeeze">
@@ -129,39 +181,47 @@
 			
 
 			<ul class="main-menu-m">
-				<li>
-					<a href="index.html">Home</a>
-					
-					<span class="arrow-main-menu-m">
-						<i class="fa fa-angle-right" aria-hidden="true"></i>
-					</span>
-				</li>
+			<li>
+								<a href="{{ route('home_page') }}">Home</a>
+								
+							</li>
 
-				
+							
 
-				<li>
-					<a href="product.html" class="label1 rs1" data-label1="hot">Shop</a>
-				</li>
-				<li>
-					<a href="shoping-cart.html">Cart</a>
-				</li>
+							<li class="label1" data-label1="hot">
+								<a href="{{ route('shop') }}">Shop</a>
+							</li>
+							<li>
+								<a href="{{ route('cart') }}">Cart</a>
+							</li>
 
+						
 
-				<li>
-					<a href="about.html">About</a>
-				</li>
+							<li>
+								<a href="{{route('about1')}}">About</a>
+							</li>
 
-				<li>
-					<a href="contact.html">Contact</a>
-				</li>
+							<li>
+								<a href="{{route('contact1')}}">Contact</a>
+							</li>
 			</ul>
 		</div>
 	</header>
+	@if(session('success'))
+    <div class="alert alert-success" role="alert">
+        {{ session('success') }}
+    </div>
+    @endif
+    @if(session('fail_message'))
+    <div class="alert alert-danger" role="alert">
+        {{ session('fail_message') }}
+    </div>
+    @endif
 
     <div>
     @yield('content')
     </div>
-
+<!-- Modal1 -->
     <!-- Footer -->
 	<footer class="bg3 p-t-75 p-b-32">
 		<div class="container">
@@ -210,7 +270,10 @@
 						Feedbacks
 					</h4>
 
-					<form>
+					
+<form action="{{ route('feedback') }}" method="post">
+                    @csrf
+
 						<div class="wrap-input1 w-full p-b-4">
 							<label class=" cl0 " for="email">Email</label>
 							<input class="input1 bg-none plh1 stext-107 cl7" type="email" name="email" placeholder="email@example.com">
@@ -246,117 +309,6 @@
 		</span>
 	</div>
     <!--===============================================================================================-->	
-	<script src="{{ asset('external_files/home_page/js/date.js') }}"></script>
-<script src="{{ asset('external_files/home_page/vendor/jquery/jquery-3.2.1.min.js') }}"></script>
-<!--===============================================================================================-->
-	<script src="{{ asset('external_files/home_page/vendor/animsition/js/animsition.min.js') }}"></script>
-<!--===============================================================================================-->
-	<script src="{{ asset('external_files/home_page/vendor/bootstrap/js/popper.js') }}"></script>
-	<script src="{{ asset('external_files/home_page/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
-<!--===============================================================================================-->
-	<script src="{{ asset('external_files/home_page/vendor/select2/select2.min.js') }}"></script>
-	<script>
-		$('#dress_image a').click(function(){
-			image = $(this).data('photo');
-			$('#modal_image img').attr('src', image);
-			$('.zoom').attr('href', image); 
-			
-			dress_id = $(this).data('aa');
-			$('#dress').val(dress_id);
-		});
-	</script>
-	<script>
-		$(".js-select2").each(function(){
-			$(this).select2({
-				minimumResultsForSearch: 20,
-				dropdownParent: $(this).next('.dropDownSelect2')
-			});
-		})
-	</script>
-<!--===============================================================================================-->
-	<script src="{{ asset('external_files/home_page/vendor/daterangepicker/moment.min.js') }}"></script>
-	<script src="{{ asset('external_files/home_page/vendor/daterangepicker/daterangepicker.js') }}"></script>
-<!--===============================================================================================-->
-	<script src="{{ asset('external_files/home_page/vendor/slick/slick.min.js') }}"></script>
-	<script src="{{ asset('external_files/home_page/js/slick-custom.js') }}"></script>
-<!--===============================================================================================-->
-	<script src="{{ asset('external_files/home_page/vendor/parallax100/parallax100.js') }}"></script>
-	<script>
-        $('.parallax100').parallax100();
-	</script>
-<!--===============================================================================================-->
-	<script src="{{ asset('external_files/home_page/vendor/MagnificPopup/jquery.magnific-popup.min.js') }}"></script>
-	<script>
-		$('.gallery-lb').each(function() { // the containers for all your galleries
-			$(this).magnificPopup({
-		        delegate: 'a', // the selector for gallery item
-		        type: 'image',
-		        gallery: {
-		        	enabled:true
-		        },
-		        mainClass: 'mfp-fade'
-		    });
-		});
-	</script>
-<!--===============================================================================================-->
-	<script src="{{ asset('external_files/home_page/vendor/isotope/isotope.pkgd.min.js') }}"></script>
-<!--===============================================================================================-->
-	<script src="{{ asset('external_files/home_page/vendor/sweetalert/sweetalert.min.js') }}"></script>
-	<script>
-		$('.js-addwish-b2').on('click', function(e){
-			e.preventDefault();
-		});
 
-		$('.js-addwish-b2').each(function(){
-			var nameProduct = $(this).parent().parent().find('.js-name-b2').html();
-			$(this).on('click', function(){
-				swal(nameProduct, "is added to wishlist !", "success");
-
-				$(this).addClass('js-addedwish-b2');
-				$(this).off('click');
-			});
-		});
-
-		$('.js-addwish-detail').each(function(){
-			var nameProduct = $(this).parent().parent().parent().find('.js-name-detail').html();
-
-			$(this).on('click', function(){
-				swal(nameProduct, "is added to wishlist !", "success");
-
-				$(this).addClass('js-addedwish-detail');
-				$(this).off('click');
-			});
-		});
-
-		/*---------------------------------------------*/
-
-		$('.js-addcart-detail').each(function(){
-			var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
-			$(this).on('click', function(){
-				swal(nameProduct, "is added to cart !", "success");
-			});
-		});
-	
-	</script>
-<!--===============================================================================================-->
-	<script src="{{ asset('external_files/home_page/vendor/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
-	<script>
-		$('.js-pscroll').each(function(){
-			$(this).css('position','relative');
-			$(this).css('overflow','hidden');
-			var ps = new PerfectScrollbar(this, {
-				wheelSpeed: 1,
-				scrollingThreshold: 1000,
-				wheelPropagation: false,
-			});
-
-			$(window).on('resize', function(){
-				ps.update();
-			})
-		});
-	</script>
-<!--===============================================================================================-->
-	<script src="{{ asset('external_files/home_page/js/main.js') }}"></script>
-    
 </body>
 </html>

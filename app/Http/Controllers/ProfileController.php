@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Dress;
 use App\User;
 use Auth;
-
+use Illuminate\Support\Facades\Hash;
 class ProfileController extends Controller
 {
     /**
@@ -23,7 +23,11 @@ class ProfileController extends Controller
             'password' => 'required_with:password_confirmation|same:password_confirmation|min:8',
             'password_confirmation' => 'required'
         ]);
-
+        $encrypted_pw =Hash::make($request->password, [
+            'rounds' => 12
+        ]);
+        User::where('id',Auth::user()->id)
+        ->update(['password' => $encrypted_pw]);
         return redirect()->back()->with('success', 'Your password has been updated!');
     }
 

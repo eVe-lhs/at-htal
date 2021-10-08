@@ -1,100 +1,134 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<!DOCtype html>
+<html>
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
-
-        <!-- Styles -->
+        <title>
+            At-Htal
+        </title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="icon" 
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Nunito', sans-serif;
-                font-weight: 200;
-                height: 100vh;
-                margin: 0;
+            body{
+                background-attachment: fixed;
             }
-
-            .full-height {
-                height: 100vh;
+            .bgimg{
+	background: white;
+	position: absolute;
+	width:100%;
+	height: 100%;
+	
+	bottom: 0;
+	left: 0;
+	right: 0;
             }
-
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
-
-            .position-ref {
-                position: relative;
-            }
-
-            .top-right {
+            .logo{
                 position: absolute;
-                right: 10px;
-                top: 18px;
+                top: 0;
+                bottom: 0;
+                left: 85;
+                right: 0;
             }
-
-            .content {
-                text-align: center;
+            .loginbtn{
+                background-color:black;
+                opacity: 100%;
+                color:white;
             }
-
-            .title {
-                font-size: 84px;
+            .loginbtn:hover{
+                background-color: grey;
+                opacity: 100%;
+                color:white;
             }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
+            .container{
+                position: absolute;
+                top: 35%;
+                left: 10%;
             }
-
-            .m-b-md {
-                margin-bottom: 30px;
+            .text{
+                font-size: 50px;
+                font-family:Georgia, Times New Roman, Times, serif;
+               color: black;
+            }
+            .navfade{
+                opacity: 0;
+                animation:fadeNav 1.5s ease-in-out forwards;
+            }
+            @keyframes fadeNav{
+                0%{
+                    opacity: 0;
+                }
+                100%{
+                    opacity: 1;
+                }
+            }
+            .leftfade{
+                transform: translateX(-10%);
+                margin-left: 70pt;
+                opacity: 0;
+                animation: leftfade 1s ease-in-out forwards;
+                animation-delay: 1s;
+            }
+            @keyframes leftfade{
+                0%{
+                    transform: translateX(-10%);
+                    opacity: 0;
+                }
+                100%{
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            .rightfade{
+                transform: translateX(10%);
+                margin-left: 70pt;
+                opacity: 0;
+                animation: rightfade 1s ease-in-out forwards;
+                animation-delay: 2s;
+            }
+            @keyframes rightfade{
+                0%{
+                    transform: translateX(10%);
+                    opacity: 0;
+                }
+                100%{
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            .bottonfade{
+                transform: translateY(30%);                
+                margin-left: 70pt;
+                opacity: 0;
+                animation: bottonfade 1s ease-in-out forwards;
+                animation-delay: 3s;
+            }
+            @keyframes bottonfade{
+                0%{
+                    transform: translateY(30%);
+                    opacity: 0;
+                }
+                100%{
+                    transform: translateY(0);
+                    opacity: 1;
+                }
             }
         </style>
-    </head>
+        <link rel="icon" type="image/png" href="{{ asset('external_files/home_page/images/logo.png') }}" sizes="50x20">
+</head>
     <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
-        </div>
+<!-- Just an image -->
+<div class="bgimg navfade"><img src="{{ asset('external_files/home_page/images/background1.jpg') }}" width="100%" height="100%"></div>
+<nav class="navbar navbar-light nav-transparent navfade">
+    
+      <img class="logo rounded" src="{{ asset('external_files/home_page/images/logo.png') }}" width="142px" height="50px" alt="">
+      
+  </nav>
+  <div class="container">
+      <h1 class="leftfade text">AT-HTEL</h1>
+      <h3 class="rightfade text">Believe In Your Creativity.</h3>
+      <button class="btn mt-3 mr-5 btn-danger bottonfade" style="border-radius: 20px;"><a href="{{route('login')}}" style="color:white;">Get Started</a></button>
+  </div>
     </body>
 </html>

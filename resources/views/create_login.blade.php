@@ -13,7 +13,11 @@
 	</head>
 
 	<body>
-
+	@if(session()->has('message')))
+    <div class="alert alert-success" role="alert">
+        {{ session()->get('message') }}
+    </div>
+    @endif
 		<div class="wrapper" style="background-image: url('external_files/sign_in/images/bg-registration-form-1.jpg');">
 			<div class="inner">
 				<div class="image-holder">

@@ -20,6 +20,8 @@ class CreateDressTable extends Migration
             //$table->string('dress_photo');
             $table->mediumText('dress_photo');
             $table->integer('price');
+            $table->unsignedBigInteger('tailor_id');
+            $table->foreign('tailor_id')->references('id')->on('users');
         });
     }
 

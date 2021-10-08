@@ -54,7 +54,8 @@ class MainController extends Controller
     public function show_cart_page() {
         $orders = DB::table('order')
                     ->join('dress', 'order.dress_id', '=', 'dress.dress_id')
-                    ->select('order.*', 'dress.*')
+                    ->join('users','order.tailor_id','=','users.id')
+                    ->select('order.*', 'dress.*','users.*')
                     ->where('order.customer_id', Auth::user()->id)
                     ->get();
         //return $orders;
@@ -64,7 +65,29 @@ class MainController extends Controller
     public function view_how_to_measure() {
         return view('measure');
     }
-
+    public function tailorCatalog(){
+        $dress = DB::table('dress')
+                ->select('dress.*')
+                ->get();
+        $mydress = DB::table('dress')->where('tailor_id',Auth::user()->id)->select('dress.*')->get();
+        return view('tailorCatalog',['dress' => $dress,'mydress'=>$mydress]);
+    }
+    public function tailorOrder(){
+        $order = DB::table('order')
+                ->join('dress','order.dress_id','=','dress.dress_id')
+                ->join('measurement','order.customer_id','=','measurement.customer_id')
+                ->join('users','order.customer_id','=','users.id')
+                ->select('order.*','dress.*','measurement.*','users.*')
+                ->where('order.tailor_id',Auth::user()->id)
+                ->get();
+        Auth::user()->unreadNotifications->markAsRead();
+        return view('tailorOrder',['order'=>$order]);
+    }
+    public function showTailorProfile() {
+        $user = User::where('id', Auth::user()->id)->first();
+        //echo $user->name;
+        return view('tailorProfile', ['user' => $user]);
+    }   
     /**
      * Show the form for creating a new resource.
      *
@@ -83,8 +106,41 @@ class MainController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated_data = $request->validate([
+            'dress_photo' => 'required|mimes:jpeg,jpg,png'
+        ]);
+        $file = $request->file('dress_photo');
+        $image_name = $file->getClientOriginalName();
+        $filename = $image_name;
+        $price=$request->price;
+        $tailor_id=Auth::user()->id;
+        $file->move('dresses/', $filename);
+        DB::table('dress')->insert(
+            ['dress_type_id' => $request->dress_type_id, 'dress_photo' => $filename,'price'=>$price,'tailor_id'=>$tailor_id]
+        );
+
+        return redirect()->route('tailorCatalog')->with('message', 'Dress has been successfully added!');
     }
+
+    
+    public function store_feedback(Request $request) {
+        $validated_data = $request->validate([
+            'email' => 'required',
+            'details' => 'required'
+        ]);
+
+        if($request->email == Auth::user()->email){
+            DB::table('feedback')->insert(
+                ['customer_id' => Auth::user()->id, 'content' => $request->details]
+            );
+            return redirect()->back()->with('success', 'Your feedback has been sent successfully!');
+        }
+        else{
+            return redirect()->back()->with('fail_message', 'Your email is incorrect');
+        }
+        
+    }
+
 
     /**
      * Display the specified resource.
